@@ -1,1 +1,78 @@
-body { padding:0; margin:0; }
+/* 
+    Document   : main
+    Created on : 28.02.2012, 21:55:57
+    Author     : Eugene Smith
+    Description:
+        Purpose of the stylesheet follows.
+*/
+root { 
+    display: block;
+}
+
+* {
+	margin:0px;
+	padding:0px;
+}
+
+div { }
+
+.main { }
+.dialog {  height:100%; background: #CCCCCC; overflow:scroll-y; padding-left: 220px; }
+.userList { width:220px; height:100%; background: white; top:0; position: absolute; }
+
+.dialog .userInfo { padding: 10px; }
+
+.userItem {
+	height:52px; line-height: 48px;
+}
+
+.userItem.selected {
+	background: -moz-linear-gradient(center top , #77ABE4, #4F8AD1) repeat scroll 0 0 transparent;
+}
+.userItem .userStatus, .userItem .userName, .userItem .userCounter, .userItem .userAvatar { display:inline-block; vertical-align: middle; }
+.userItem .userStatus {
+	margin-left:11px;
+	width:11px;
+	height:11px;
+	border:1px solid red;
+	border-radius:11px;
+	background: -moz-linear-gradient(center top , #4FAB44, #4FAA44) repeat scroll 0 0 transparent;
+}
+.userItem .userStatus.offline {
+	background: -moz-linear-gradient(center top , #CCCCCC, #FFFFFF) repeat scroll 0 0 transparent;
+}
+
+.float-right { float:right; height:52px; display:inline-block;  }
+
+.userItem .userAvatar {
+	overflow: hidden;
+	width:35px;
+	height:35px;
+	right:0;
+	margin-right:11px;
+	margin-left:11px;
+    border-radius: 5px;
+    cursor: pointer;
+	box-shadow: 0 0 3px 0 black inset;
+}
+
+.userItem .userCounter {
+	padding: 0  3px;
+	color: white;
+	text-align:center;
+	line-height: 10px;
+	font-size:10px;
+	background: #dddd00;
+	min-width:11px;
+	height:11px;
+	border:1px solid red;
+	border-radius:11px;
+}
+
+.messageItem { height:22px; padding-left:60px; padding-right: 60px;}
+.messageItem:hover { background:white; }
+
+.messageItem div { display: inline-block;}
+.messageItem .senderName { width: 54px; margin-left: -60px; padding-right: 6px; text-align:right; }
+.messageItem:hover .messageRemove { position: absolute; width: 22px; padding-left: 6px; right:60px; }
+.messageItem .messageTime { position: absolute; width: 54px; padding-left: 6px; right:0; }

@@ -47,4 +47,16 @@ class BaseManager
 
 		return $storage;
 	}
+
+	public function remove($id, $entityName)
+	{
+		$fName = self::getEntityPath($entityName);
+
+		$storage = unserialize(file_get_contents($fName));
+		$result = isset($storage[$id]) ? true : false;
+		unset($storage[$id]);
+		file_put_contents(self::getEntityPath($entityName), serialize($storage));
+		
+		return $result;
+	}
 }

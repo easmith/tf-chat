@@ -37,4 +37,19 @@ class MessageManager extends BaseManager
 	{
 		return parent::getAll('Message');
 	}
+
+	public function sendMessage($from, $to, $type, $content)
+	{
+		$m = new Message();
+		$m->from = $from;
+		$m->to = $to;
+		$m->type = $type;
+		$m->content = $content;
+		return $this->save($m);
+	}
+	
+	public function remove($mId)
+	{
+		return parent::remove($mId, 'Message');
+	}
 }

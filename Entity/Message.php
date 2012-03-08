@@ -5,6 +5,12 @@ include_once dirname(__FILE__) . DIRECTORY_SEPARATOR . '/BaseEntity.php';
 class Message extends BaseEntity
 {
 	public $id;
+
+	/**
+	 * TimeStamp - Время создания сообщения
+	 *
+	 * @var integer
+	 */
 	public $ts;
 
 	/**
@@ -33,9 +39,17 @@ class Message extends BaseEntity
 	 */
 	public $status;
 
+	/**
+	 * Время последнего изменения сообщения
+	 *
+	 * @var integer
+	 */
+	public $lastModifed;
+
 	public function  __construct()
 	{
 		parent::__construct();
 		$this->ts = time();
+		$this->lastModifed = $this->ts;
 	}
 }

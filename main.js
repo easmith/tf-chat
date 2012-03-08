@@ -93,6 +93,8 @@ TF.drawDialog = function(data)
 		.delegate(".closeWindow", "click", function(){ $("#sendRateForm").remove()} )
 		.delegate(".stars div", "click", function(){ TF.sendMessage(1, $(this).attr('rate')); $("#sendRateForm").remove(); } )
 	});
+
+	TF.setUserCounter(TF.currentUser.id, 0);
 }
 
 TF.sendMessage = function(mType, mContent){
@@ -140,9 +142,32 @@ TF.drawUserInfo = function(data){
 	return userInfo;
 }
 
+TF.getEvents = function()
+{
+	$.getJSON('server.php?cmd=getEvents&cu=' + TF.actor.id + '&mu=' + TF.currentUser.id, function(data) {
+		for (var c in data.counters)
+		{
+			TF.setUserCounter(c, data.counters[c]);
+		}
+		for (var m in data.messages)
+		{
+			//TF.drawMessageItem(data.messages[i]);
+		}
+	});
+}
 
-
-
+TF.setUserCounter = function(uId, counter)
+{
+	$("#" + uId + " .userCounter").html(counter);
+	if (counter == 0)
+	{
+		$("#" + uId + " .userCounter").hide();
+	}
+	else
+	{
+		$("#" + uId + " .userCounter").show();
+	}
+}
 
 
 
@@ -159,5 +184,8 @@ $().ready(function(){
 
 		TF.getUserList();
 
+		setInterval(function(){
+			TF.getEvents();
+		}, 2000);
 
 });

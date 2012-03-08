@@ -20,7 +20,7 @@ switch ($cmd)
 	{
 		$ownerId = $_GET['ownerId'];
 		$senderId = $_GET['senderId'];
-		$messages = $mm->getPair($ownerId, $senderId);
+		$messages = $mm->getMessages($ownerId, $senderId);
 		echo json_encode($messages);
 		break;
 	}
@@ -41,5 +41,17 @@ switch ($cmd)
 
 		echo json_encode($mm->remove($mId));
 		break;
+	}
+	case 'getEvents' :
+	{
+		// Текущий пользователь
+		$cu = $_GET['cu'];
+
+		// Пользователь с которым ведется диалог
+		$mu = $_GET['mu'];
+
+		$e = $mm->getEvents($cu, $mu);
+
+		echo json_encode($e);
 	}
 }

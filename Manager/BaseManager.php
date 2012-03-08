@@ -48,6 +48,13 @@ class BaseManager
 		return $storage;
 	}
 
+	public function saveAll($data, $entityName)
+	{
+		$fName = self::getEntityPath($entityName);
+
+		return file_put_contents($fName, serialize($data));
+	}
+
 	public function remove($id, $entityName)
 	{
 		$fName = self::getEntityPath($entityName);

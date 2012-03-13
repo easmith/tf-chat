@@ -29,14 +29,6 @@ TF.actor.set = function(){
 //	delete TF.userList[cu];
 }
 
-TF.ce = function (tagName, className, innerHTML)
-{
-	var div = document.createElement(tagName);
-	div.className = className ? className : '';
-	div.innerHTML = innerHTML ? innerHTML : '';
-	return div;
-}
-
 TF.getUserList = function()
 {
 	$.getJSON('server.php?cmd=getUserList', function(data) {
@@ -57,7 +49,7 @@ TF.getUserList = function()
 
 TF.drawUserListItem = function(data)
 {
-	data.avatar = "/Storage/avatar/" + data.avatar + "-small.png";
+	//data.avatar = "/Storage/avatar/" + data.avatar + "-small.png";
 	data.online = data.online ? "" : " offline";
 	$('#userList').append($.tmpl('userItem', data));
 }
@@ -117,10 +109,12 @@ TF.sendMessage = function(mType, mContent){
 
 TF.drawMessageItem = function(data){
 	var date = new Date(data.ts * 1000);
-	data.time = date.getHours() + ':' + date.getMinutes();
-	data.content = data.content;
-	data.senderName = TF.userList[data.from].fName;
-	var messageItem = $.tmpl('messageItem', data);
+	var tmplData = data;
+	tmplData.time = date.getHours() + ':' + date.getMinutes();
+	tmplData.content = data.content;
+	tmplData.senderName = TF.userList[data.from].fName;
+	tmplData.isActor = data.from == TF.actor.id;
+	var messageItem = $.tmpl('messageItem', tmplData);
 	messageItem.delegate(".messageRemove", "click", function(){TF.removeMessage(data.id)} );
 	$('#messageContainer').append(messageItem);
 }
@@ -138,8 +132,7 @@ TF.setCounter = function(uId, counter)
 }
 
 TF.drawUserInfo = function(data){
-	var userInfo = data.id + ': ' + data.fName + ', ' + data.age;
-	return userInfo;
+	return $.tmpl('userInfo', data)
 }
 
 TF.getEvents = function()
@@ -184,8 +177,8 @@ $().ready(function(){
 
 		TF.getUserList();
 
-		setInterval(function(){
-			TF.getEvents();
-		}, 2000);
+//		setInterval(function(){
+//			TF.getEvents();
+//		}, 2000);
 
 });

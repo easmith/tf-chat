@@ -18,10 +18,51 @@ root {
 div { }
 
 .main { height: 100%; width: 100%; position: relative; overflow: hidden;}
-.userList { width:220px; height:100%; background: white; top:0; display: inline-block; }
-.dialog { background: #CCCCCC; top:-100%; height: 100%; margin-left: 220px; }
+.userList {
+	width:220px; height:100%; background: white; top:0; display: inline-block;
+}
+.dialog {
+	background: white; top:-100%; height: 100%; margin-left: 220px;
+	/* TODO Разобраться в левом затемнении */
+-webkit-box-shadow: inset 16px 0px 16px -16px #f1f3f5;
+-moz-box-shadow: inset 16px 0px 16px -16px #f1f3f5;
+box-shadow: inset 16px 0px 16px -16px #f1f3f5;
+}
 
-.dialog .userInfo { padding: 10px; }
+.dialog #userInfo {
+	height: 100px;
+	padding: 10px;
+	background: #e4ecf7;
+}
+#userInfo .userAvatar {
+	vertical-align: top;
+	display: inline-block;
+	width: 98px;
+	height: 98px;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+	-webkit-box-shadow: inset 0px 1px 3px 0px #000000;
+	-moz-box-shadow: inset 0px 1px 3px 0px #000000;
+	box-shadow: inset 0px 1px 3px 0px #000000;
+	border-bottom:1px solid white;
+}
+
+#userInfo .userProfile {
+	display: inline-block;
+}
+
+.userProfile .userName, .userProfile .userLocation {
+	margin:5px;
+}
+
+#userInfo .userTools {
+width: 300px;
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+#userInfo .userTools a { display: block; }
 
 .userItem {
 	cursor: pointer;
@@ -29,22 +70,64 @@ div { }
 }
 
 .userItem.selected {
-	background: -moz-linear-gradient(center top , #77ABE4, #4F8AD1) repeat scroll 0 0 transparent;
+	background: #6698d5; /* Old browsers */
+	/* IE9 SVG, needs conditional override of 'filter' to 'none' */
+	background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzY2OThkNSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM1OTg3YmUiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+	background: -moz-linear-gradient(top,  #6698d5 0%, #5987be 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#6698d5), color-stop(100%,#5987be)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #6698d5 0%,#5987be 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #6698d5 0%,#5987be 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #6698d5 0%,#5987be 100%); /* IE10+ */
+	background: linear-gradient(top,  #6698d5 0%,#5987be 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6698d5', endColorstr='#5987be',GradientType=0 ); /* IE6-8 */
+
+-webkit-box-shadow: inset 0px 1px 3px 1px #4c73a0;
+-moz-box-shadow: inset 0px 1px 3px 1px #4c73a0;
+box-shadow: inset 0px 1px 3px 1px #4c73a0; 
 }
 .userItem .userStatus, .userItem .userName, .userItem .userCounter, .userItem .userAvatar { display:inline-block; vertical-align: middle; }
 .userItem .userStatus {
 	margin-left:11px;
 	width:11px;
 	height:11px;
-	border:1px solid red;
 	border-radius:11px;
-	background: -moz-linear-gradient(center top , #4FAB44, #4FAA44) repeat scroll 0 0 transparent;
+	
+	background: #58b017; /* Old browsers */
+	/* IE9 SVG, needs conditional override of 'filter' to 'none' */
+	background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzU4YjAxNyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM2NGYxMDAiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+	background: -moz-linear-gradient(top,  #58b017 0%, #64f100 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#58b017), color-stop(100%,#64f100)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #58b017 0%,#64f100 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #58b017 0%,#64f100 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #58b017 0%,#64f100 100%); /* IE10+ */
+	background: linear-gradient(top,  #58b017 0%,#64f100 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#58b017', endColorstr='#64f100',GradientType=0 ); /* IE6-8 */
+	-webkit-box-shadow: inset 0px 0px 3px 0px #64f100;
+	-moz-box-shadow: inset 0px 0px 3px 0px #64f100;
+	box-shadow: inset 0px 0px 3px 0px #64f100;
 }
 .userItem .userStatus.offline {
-	background: -moz-linear-gradient(center top , #CCCCCC, #FFFFFF) repeat scroll 0 0 transparent;
+	background: #c0c0c0; /* Old browsers */
+	/* IE9 SVG, needs conditional override of 'filter' to 'none' */
+	background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIyNSUiIHN0b3AtY29sb3I9IiNjMGMwYzAiIHN0b3Atb3BhY2l0eT0iMSIvPgogICAgPHN0b3Agb2Zmc2V0PSI3NSUiIHN0b3AtY29sb3I9IiNlNmU2ZTYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+	background: -moz-linear-gradient(top,  #c0c0c0 25%, #e6e6e6 75%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(25%,#c0c0c0), color-stop(75%,#e6e6e6)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #c0c0c0 25%,#e6e6e6 75%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #c0c0c0 25%,#e6e6e6 75%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #c0c0c0 25%,#e6e6e6 75%); /* IE10+ */
+	background: linear-gradient(top,  #c0c0c0 25%,#e6e6e6 75%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c0c0c0', endColorstr='#e6e6e6',GradientType=0 ); /* IE6-8 */
+	-webkit-box-shadow: inset 0px 0px 3px 0px #e6e6e6;
+	-moz-box-shadow: inset 0px 0px 3px 0px #e6e6e6;
+	box-shadow: inset 0px 0px 3px 0px #e6e6e6;
 }
 
-.float-right { float:right; height:52px; display:inline-block;  }
+.float-right {
+	height:40px; display:inline-block;
+    position: absolute;
+    right: 0;
+    top: 8px;
+}
 
 .userItem .userAvatar {
 	overflow: hidden;
@@ -53,26 +136,32 @@ div { }
 	right:0;
 	margin-right:11px;
 	margin-left:11px;
-    border-radius: 5px;
+-webkit-border-radius: 5px;
+-moz-border-radius: 5px;
+border-radius: 5px;
     cursor: pointer;
 	box-shadow: 0 0 3px 0 black inset;
 }
 
+
+
 .userItem .userCounter {
-	padding: 0  3px;
+	padding: 0  1px;
 	color: white;
 	text-align:center;
 	line-height: 10px;
 	font-size:10px;
-	background: #dddd00;
+	background: #f47600;
 	min-width:11px;
 	height:11px;
-	border:1px solid red;
 	border-radius:11px;
+
+	-webkit-box-shadow: inset 0px 1px 1px 0px #d86200;
+	-moz-box-shadow: inset 0px 1px 1px 0px #d86200;
+	box-shadow: inset 0px 1px 1px 0px #d86200;
 }
 
 
-#userInfo { height:100px; border:1px solid red; }
 #messageContainer { padding-bottom: 100px; height: auto; height: 200px; overflow-y: scroll; }
 #messageForm { border:1px solid red; }
 
@@ -80,7 +169,9 @@ div { }
 .messageItem:hover { background:white; }
 
 .messageItem div { display: inline-block;}
-.messageItem .senderName { position: absolute; width: 54px; margin-left: -60px; padding-right: 6px; text-align:right; }
+.messageItem .senderName { position: absolute; width: 54px; margin-left: -60px; padding-right: 6px; text-align:right; color: #a6a6a6; }
+.messageItem .senderName.self { color: #1270b8; }
+
 .messageItem .messageContent { }
 .messageItem .messageRemove { position: absolute; width: 22px; padding-left: 6px; right:60px; top:0; display:none; cursor: pointer; }
 .messageItem:hover .messageRemove { display:inline-block; }

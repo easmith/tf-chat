@@ -4,9 +4,9 @@ $.template(
 "	<div class='userStatus ${online}'></div>" +
 "	<div class='userName'>${fName}, ${age}</div>" +
 "	<div class='float-right'>" +
-"		<div class='userCounter'>${counter}</div>" +
-		"<div class='userAvatar' style='background: url(&quot;${avatar}&quot;) no-repeat scroll center center white;)'>" +
-"			<img src='${avatar}' style='visibility: hidden;' />" +
+"		<div class='userCounter'>1${counter}</div>" +
+		"<div class='userAvatar' style='background: url(&quot;/Storage/avatar/${avatar}-small.png&quot;) no-repeat scroll center center white;)'>" +
+"			<img src='/Storage/avatar/${avatar}-small.png' style='visibility: hidden;' />" +
 "		</div>" +
 "	</div>" +
 "</div>"
@@ -14,7 +14,8 @@ $.template(
 
 $.template(
   "dialog",
-"	<div id='userInfo'></div>" +
+"	<div id='userInfo'>" +
+"</div>" +
 "	<div id='messageContainer'></div>" +
 "	<div id='messageForm'>" +
 "		<form action='server.php?cmd=sendMessage&amp;from=${from}&amp;to=${to}' method='POST' id='sendMessage'>" +
@@ -27,11 +28,26 @@ $.template(
 "	</div>"
 );
 
+$.template(
+"userInfo",
+"	<div class='userAvatar' style='background: url(&quot;/Storage/avatar/${avatar}-big.png&quot;) no-repeat scroll center center white;)'>" +
+"		<img src='/Storage/avatar/${avatar}-big.png' style='visibility: hidden;' />" +
+"	</div>" +
+"	<div class='userProfile'>" +
+"		<div class='userName'><a href='' onclick='return false'>${fName}, ${age}</a></div>" +
+"		<div class='userLocation'>${country}, ${city}</div>" +
+"	</div>"+
+"	<div class='userTools'>" +
+"	<a href=''>Добавить в закладки</a>" +
+"	<a href=''>Пожаловаться</a>" +
+"	</div>" 
+)
+
 
 $.template(
   "messageItem",
 "<div class='messageItem' id=${id}>" +
-"	<div class='senderName'>${senderName}</div>" +
+"	<div class='senderName{{if isActor}} self{{/if}}'>${senderName}</div>" +
 "	<div class='messageContent'>{{if type == '2'}} Подарок №{{/if}} {{if type == '1'}} Оценка: {{/if}}${content}</div>" +
 "	<div class='messageRemove'>x</div>" +
 "	<div class='messageTime'>${time}</div>" +

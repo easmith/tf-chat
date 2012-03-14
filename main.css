@@ -10,35 +10,40 @@ root {
 }
 
 * {
+	font: 14px Arial;
 	position:relative;
 	margin:0px;
 	padding:0px;
 }
 
 div { }
+a { color: #1270b8; display:inline; text-decoration:none; border-bottom: 1px dotted #1270b8; }
 
 .main { height: 100%; width: 100%; position: relative; overflow: hidden;}
 .userList {
-	width:220px; height:100%; background: white; top:0; display: inline-block;
+	width:219px; height:100%; background: white; top:0; display: inline-block;
+	border-right:1px solid #eaebef;
 }
 .dialog {
-	background: white; top:-100%; height: 100%; margin-left: 220px;
+	background: #f1f4fb;
+	top:-100%; height: 100%; margin-left: 220px;
 	/* TODO Разобраться в левом затемнении */
--webkit-box-shadow: inset 16px 0px 16px -16px #f1f3f5;
--moz-box-shadow: inset 16px 0px 16px -16px #f1f3f5;
-box-shadow: inset 16px 0px 16px -16px #f1f3f5;
+-webkit-box-shadow: inset 30px 0 20px -20px #eaebef;
+-moz-box-shadow: inset 30px 0 20px -20px#eaebef;
+box-shadow: inset 30px 0 20px -20px #eaebef;
 }
 
 .dialog #userInfo {
-	height: 100px;
-	padding: 10px;
+	height: 80px;
+	padding: 10px 10px 9px 20px;
 	background: #e4ecf7;
+	border-bottom: 1px solid #d1d8e2;
 }
 #userInfo .userAvatar {
 	vertical-align: top;
 	display: inline-block;
-	width: 98px;
-	height: 98px;
+	width: 81px;
+	height: 81px;
 	-webkit-border-radius: 6px;
 	-moz-border-radius: 6px;
 	border-radius: 6px;
@@ -57,16 +62,15 @@ box-shadow: inset 16px 0px 16px -16px #f1f3f5;
 }
 
 #userInfo .userTools {
-width: 300px;
+	width: 200px;
 	position: absolute;
 	right: 0;
 	top: 0;
 }
-#userInfo .userTools a { display: block; }
 
 .userItem {
 	cursor: pointer;
-	height:52px; line-height: 48px;
+	height:50px; line-height: 48px;
 }
 
 .userItem.selected {
@@ -162,23 +166,114 @@ border-radius: 5px;
 }
 
 
-#messageContainer { padding-bottom: 100px; height: auto; height: 200px; overflow-y: scroll; }
+#messageContainer {
+	height: auto; height: 500px; overflow-y: scroll; background: #ffffff;
+-webkit-box-shadow: inset 30px 0 20px -20px #eaebef;
+-moz-box-shadow: inset 30px 0 20px -20px#eaebef;
+box-shadow: inset 30px 0 20px -20px #eaebef;
+}
 #messageForm { border:1px solid red; }
 
-.messageItem { min-height:22px; padding-left:60px; padding-right: 120px; position: relative;}
-.messageItem:hover { background:white; }
+.messageItem {
+	min-height:22px; padding-left:60px; padding-right: 120px; position: relative;
+	background: #ffffff;
+-webkit-box-shadow: inset 30px 0 20px -20px #eaebef;
+-moz-box-shadow: inset 30px 0 20px -20px#eaebef;
+box-shadow: inset 30px 0 20px -20px #eaebef;
+}
+
+
+
+/**/
+.messageItem.removedMessage .messageContent { content:'Сообщение удалено'; }
+
+.messageItem:hover { background: #fafafa; }
 
 .messageItem div { display: inline-block;}
-.messageItem .senderName { position: absolute; width: 54px; margin-left: -60px; padding-right: 6px; text-align:right; color: #a6a6a6; }
+.messageItem .senderName { position: absolute; width: 54px; margin-left: -60px; padding-right: 6px; text-align:right; color: #a6a6a6; font-weight: bold; }
 .messageItem .senderName.self { color: #1270b8; }
 
-.messageItem .messageContent { }
+.messageItem .messageContent * {  vertical-align:top; }
+.messageItem.removedMessage .messageContent { color: #a6a6a6;}
 .messageItem .messageRemove { position: absolute; width: 22px; padding-left: 6px; right:60px; top:0; display:none; cursor: pointer; }
 .messageItem:hover .messageRemove { display:inline-block; }
+.messageItem.removedMessage:hover .messageRemove { display:none; }
 .messageItem .messageTime { position: absolute; width: 54px; padding-left: 6px; right:0; top:0; }
+.messageItem.removedMessage .messageTime { background: url(stars-small.png) right 0 no-repeat;}
 
 #messageForm textarea { width:100%; }
 #messageForm .sendGift, #messageForm .sendRate { width:150px; display: inline-block; }
 
-#sendRateForm { position:absolute; top:50%; left: 50%; width:300px; height:100px; margin-left:-150px; margin-top:-50px; border: 1px solid red; background:white; }
-#sendRateForm .stars div { display: inline-block; width:20px; height:20px; cursor:pointer; }
+#messageForm .sendRate, #messageForm .sendGift {
+	height:23px;
+	padding: 2px 2px 2px 6px;
+}
+
+#messageForm .sendGift {
+	padding-left:27px;
+	background: url(gift.png) 0 2px no-repeat;
+}
+.sendGift:hover .sendRate:hover { background: #e7eff9; }
+
+#messageForm .sendRate * {
+	display: inline-block; vertical-align: middle; line-height:18px;
+	text-decoration:none;
+}
+
+
+.sendRate .srats-small {
+	margin-right:5px;
+	width:16px;
+	height:17px;
+	background: url(stars-small.png) 0 0 no-repeat;
+}
+.sendRate:hover .srats-small {
+	background: url(stars-small.png) 0 -16px no-repeat;
+}
+
+#sendRateForm, #sendGiftForm {
+	position:absolute; top:50%; left: 50%;
+	width:386px; height:100px;
+	margin-left:-178px;
+	margin-top:-50px; border: 1px solid red; background:white;
+}
+
+#sendRateForm .stars {
+	margin:10px;
+}
+
+#sendRateForm .stars div
+{
+	display: inline-block;
+	width:34px; height:24px; cursor:pointer;
+	background: url(stars.png) -1px 0 no-repeat;
+	margin-left:-1px;
+    padding-top: 12px;
+	text-align: center;
+	font-weight: bold;
+	color: white;
+}
+
+#sendRateForm .stars div:hover {
+	background: url(stars.png) -1px -35px no-repeat;
+}
+
+#sendGiftForm .gifts div {
+	cursor: pointer;
+	display: inline-block;
+	height: 48px;
+	width: 48px;
+}
+
+.gifts .gift-1 { background: url(/Storage/gift/1.png) 0 0 no-repeat;}
+.gifts .gift-2 { background: url(/Storage/gift/2.png) 0 0 no-repeat;}
+.gifts .gift-3 { background: url(/Storage/gift/3.png) 0 0 no-repeat;}
+.gifts .gift-4 { background: url(/Storage/gift/4.png) 0 0 no-repeat;}
+.gifts .gift-5 { background: url(/Storage/gift/5.png) 0 0 no-repeat;}
+
+.closeWindow {
+	position:absolute;
+	top:5px;
+	right: 5px;
+	cursor:pointer;
+}

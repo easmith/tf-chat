@@ -1,15 +1,15 @@
 if (typeof(TF) == 'undefined') TF = {};
 
-// текущий "залогиненныйй пользователь"
+// С‚РµРєСѓС‰РёР№ "Р·Р°Р»РѕРіРёРЅРµРЅРЅС‹Р№Р№ РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ"
 TF.actor = {};
 
-// пользователь с кем ведется диалог
+// РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ СЃ РєРµРј РІРµРґРµС‚СЃСЏ РґРёР°Р»РѕРі
 TF.currentUser = {};
 
-// список всех польователей
+// СЃРїРёСЃРѕРє РІСЃРµС… РїРѕР»СЊРѕРІР°С‚РµР»РµР№
 TF.userList = {};
 
-// список сообщений
+// СЃРїРёСЃРѕРє СЃРѕРѕР±С‰РµРЅРёР№
 TF.messages = {};
 
 TF.actor.set = function(){
@@ -22,7 +22,7 @@ TF.actor.set = function(){
 			cu = i;
 		}
 	}
-	// Если не указан пользователь выбираем последнего =)
+	// Р•СЃР»Рё РЅРµ СѓРєР°Р·Р°РЅ РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ РІС‹Р±РёСЂР°РµРј РїРѕСЃР»РµРґРЅРµРіРѕ =)
 	if (cu == 0) cu = i;
 	TF.actor = TF.userList[cu];
 	window.location.hash = TF.actor.id;
@@ -82,14 +82,28 @@ TF.drawDialog = function(data)
 
 	$('#sendRate').click(function(){
 		$('#dialog').append($.tmpl('sendRate', null))
-		.delegate(".closeWindow", "click", function(){ $("#sendRateForm").remove()} )
-		.delegate(".stars div", "click", function(){ TF.sendMessage(1, $(this).attr('rate')); $("#sendRateForm").remove(); } )
+		.find(".stars div").click(function(){ TF.sendMessage(1, $(this).attr('rate')); $("#sendRateForm").remove(); });
 	});
+
+	$('#sendGift').click(function(){
+		$('#dialog').append($.tmpl('sendGift', null))
+		.find(".gifts div").click(function(){ TF.sendMessage(2, $(this).attr('giftId')); $("#sendGiftForm").remove(); } )
+	})
+
+	$('#messageContent').keydown(function (e){
+		if (e.ctrlKey && e.keyCode == 13){
+			// Ctrl-Enter pressed
+			return TF.sendMessage(0, $('#messageContent').val());
+		}
+	});
+
 
 	TF.setUserCounter(TF.currentUser.id, 0);
 }
 
 TF.sendMessage = function(mType, mContent){
+	mContent = mContent.trim();
+	if (mContent == '') return false;
 	$.ajax({
 		url: $('#sendMessage').attr('action'),
 		type: "POST",
@@ -101,7 +115,13 @@ TF.sendMessage = function(mType, mContent){
 			content: mContent
 		},
 		success: function(data) {
+			// после отправки очищаю текст сообщения
+			if (mType == 0) $('#messageContent').val('');
 			eval(data.cmd);
+			var mc = $("#messageContainer");
+			console.log(mc.innerHeight() + ' ' + mc.outerHeight());
+			mc.scrollTop(mc.innerHeight());
+
 		}
 	});
 	return false;
@@ -115,14 +135,18 @@ TF.drawMessageItem = function(data){
 	tmplData.senderName = TF.userList[data.from].fName;
 	tmplData.isActor = data.from == TF.actor.id;
 	var messageItem = $.tmpl('messageItem', tmplData);
-	messageItem.delegate(".messageRemove", "click", function(){TF.removeMessage(data.id)} );
+	messageItem.find(".messageRemove").click( function(){
+		if ($(this).parent().hasClass('removedMessage')) return false;
+		TF.removeMessage(data.id)
+	});
 	$('#messageContainer').append(messageItem);
 }
 
 TF.removeMessage = function(mId)
 {
 	$.getJSON('server.php?cmd=removeMessage&mId=' + mId, function(data) {
-		$('#'+mId).hide();
+		$('#'+mId).addClass('removedMessage');
+		$('#'+mId+' .messageContent').html('Сообщение было удалено.');
 	});
 }
 
@@ -151,14 +175,15 @@ TF.getEvents = function()
 
 TF.setUserCounter = function(uId, counter)
 {
-	$("#" + uId + " .userCounter").html(counter);
+	var userItem = $("#" + uId + " .userCounter");
+	userItem.html(counter);
 	if (counter == 0)
 	{
-		$("#" + uId + " .userCounter").hide();
+		userItem.hide();
 	}
 	else
 	{
-		$("#" + uId + " .userCounter").show();
+		userItem.show();
 	}
 }
 
@@ -173,7 +198,7 @@ TF.setUserCounter = function(uId, counter)
 
 
 $().ready(function(){
-
+		$("#dialog").delegate('.closeWindow', 'click', function(){ $(this).parent().remove()} );
 
 		TF.getUserList();
 

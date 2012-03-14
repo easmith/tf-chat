@@ -22,8 +22,8 @@ $.template(
 "		<div>Узнать о доставки сообщения</div>" +
 "		<textarea name='messageContent' id='messageContent'></textarea>" +
 "		<input type='submit' value='Отправить'/>" +
-"		<div class='sendGift' id='sendGift'>Отправить подарок</div>" +
-"		<div class='sendRate'><a href='#' id='sendRate'>Отправить оценку</a></div>" +
+"		<div class='sendGift'><a href='#' id='sendGift'>Отправить подарок</a></div>" +
+"		<div class='sendRate'><div class='srats-small'></div><a href='#' id='sendRate'>Отправить оценку</a></div>" +
 "		</form>" +
 "	</div>"
 );
@@ -34,7 +34,7 @@ $.template(
 "		<img src='/Storage/avatar/${avatar}-big.png' style='visibility: hidden;' />" +
 "	</div>" +
 "	<div class='userProfile'>" +
-"		<div class='userName'><a href='' onclick='return false'>${fName}, ${age}</a></div>" +
+"		<div class='userName'><a href='#${id}' onclick='return false'>${fName}, ${age}</a></div>" +
 "		<div class='userLocation'>${country}, ${city}</div>" +
 "	</div>"+
 "	<div class='userTools'>" +
@@ -48,7 +48,11 @@ $.template(
   "messageItem",
 "<div class='messageItem' id=${id}>" +
 "	<div class='senderName{{if isActor}} self{{/if}}'>${senderName}</div>" +
-"	<div class='messageContent'>{{if type == '2'}} Подарок №{{/if}} {{if type == '1'}} Оценка: {{/if}}${content}</div>" +
+"	<div class='messageContent'>" +
+"		{{if type == '2'}} Подарок №: ${content}<img src='/Storage/gift/${content}.png' />{{/if}}" +
+"		{{if type == '1'}}{{if content > 8}}Вам проявили симпатю!{{else}}Оценка: ${content}{{/if}}{{/if}}"+
+"		{{if type == '0'}}${content}{{/if}}"+
+"	</div>" +
 "	<div class='messageRemove'>x</div>" +
 "	<div class='messageTime'>${time}</div>" +
 "</div>"
@@ -60,16 +64,31 @@ $.template(
 "		Отправьте %% оценку" +
 "		<div class='closeWindow'>X</div>" +
 "		<div class='stars'>" +
-"			<div rate='1'></div>" +
-"			<div rate='2'></div>" +
-"			<div rate='3'></div>" +
-"			<div rate='4'></div>" +
-"			<div rate='5'></div>" +
-"			<div rate='6'></div>" +
-"			<div rate='7'></div>" +
-"			<div rate='8'></div>" +
-"			<div rate='9'></div>" +
-"			<div rate='10'></div>" +
+"			<div rate='1'>1</div>" +
+"			<div rate='2'>2</div>" +
+"			<div rate='3'>3</div>" +
+"			<div rate='4'>4</div>" +
+"			<div rate='5'>5</div>" +
+"			<div rate='6'>6</div>" +
+"			<div rate='7'>7</div>" +
+"			<div rate='8'>8</div>" +
+"			<div rate='9'>9</div>" +
+"			<div rate='10'>10</div>" +
+"		</div>" +
+"	</div>"
+);
+
+$.template(
+  "sendGift",
+"	<div id='sendGiftForm'>" +
+"		Отправьте %% подарок" +
+"		<div class='closeWindow'>X</div>" +
+"		<div class='gifts'>" +
+"			<div class='gift-1' giftId='1'></div>" +
+"			<div class='gift-2' giftId='2'></div>" +
+"			<div class='gift-3' giftId='3'></div>" +
+"			<div class='gift-4' giftId='4'></div>" +
+"			<div class='gift-5' giftId='5'></div>" +
 "		</div>" +
 "	</div>"
 );

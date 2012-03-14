@@ -49,7 +49,6 @@ TF.getUserList = function()
 
 TF.drawUserListItem = function(data)
 {
-	//data.avatar = "/Storage/avatar/" + data.avatar + "-small.png";
 	data.online = data.online ? "" : " offline";
 	$('#userList').append($.tmpl('userItem', data));
 }
@@ -82,12 +81,14 @@ TF.drawDialog = function(data)
 
 	$('#sendRate').click(function(){
 		$('#dialog').append($.tmpl('sendRate', null))
-		.find(".stars div").click(function(){ TF.sendMessage(1, $(this).attr('rate')); $("#sendRateForm").remove(); });
+			.find(".stars div").click(function(){ TF.sendMessage(1, $(this).attr('rate')); $(".closeWindow").click(); });
+		$(".transDialogBg").show();
 	});
 
 	$('#sendGift').click(function(){
 		$('#dialog').append($.tmpl('sendGift', null))
-		.find(".gifts div").click(function(){ TF.sendMessage(2, $(this).attr('giftId')); $("#sendGiftForm").remove(); } )
+			.find(".gifts div").click(function(){ TF.sendMessage(2, $(this).attr('giftId')); $(".closeWindow").click(); });
+		$(".transDialogBg").show();
 	})
 
 	$('#messageContent').keydown(function (e){
@@ -198,7 +199,10 @@ TF.setUserCounter = function(uId, counter)
 
 
 $().ready(function(){
-		$("#dialog").delegate('.closeWindow', 'click', function(){ $(this).parent().remove()} );
+		$("#dialog").delegate('.closeWindow', 'click', function(){
+			$(".transMsgBg").remove();
+			$(".transDialogBg").hide();
+		});
 
 		TF.getUserList();
 

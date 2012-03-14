@@ -14,8 +14,8 @@ $.template(
 
 $.template(
   "dialog",
-"	<div id='userInfo'>" +
-"</div>" +
+"	<div id='userInfo'></div>" +
+"	<div calss='dialogLayout'>" +
 "	<div id='messageContainer'></div>" +
 "	<div id='messageForm'>" +
 "		<form action='server.php?cmd=sendMessage&amp;from=${from}&amp;to=${to}' method='POST' id='sendMessage'>" +
@@ -25,6 +25,8 @@ $.template(
 "		<div class='sendGift'><a href='#' id='sendGift'>Отправить подарок</a></div>" +
 "		<div class='sendRate'><div class='srats-small'></div><a href='#' id='sendRate'>Отправить оценку</a></div>" +
 "		</form>" +
+"	</div>" +
+"	<div class='transDialogBg'></div>" +
 "	</div>"
 );
 
@@ -49,7 +51,7 @@ $.template(
 "<div class='messageItem' id=${id}>" +
 "	<div class='senderName{{if isActor}} self{{/if}}'>${senderName}</div>" +
 "	<div class='messageContent'>" +
-"		{{if type == '2'}} Подарок №: ${content}<img src='/Storage/gift/${content}.png' />{{/if}}" +
+"		{{if type == '2'}}<img src='/Storage/gift/${content}.png' /> Вам отправили подарок. <a href=''>Отправить в ответ</a>{{/if}}" +
 "		{{if type == '1'}}{{if content > 8}}Вам проявили симпатю!{{else}}Оценка: ${content}{{/if}}{{/if}}"+
 "		{{if type == '0'}}${content}{{/if}}"+
 "	</div>" +
@@ -60,6 +62,7 @@ $.template(
 
 $.template(
   "sendRate",
+"	<div class='transMsgBg'>" +
 "	<div id='sendRateForm'>" +
 "		Отправьте %% оценку" +
 "		<div class='closeWindow'>X</div>" +
@@ -75,11 +78,13 @@ $.template(
 "			<div rate='9'>9</div>" +
 "			<div rate='10'>10</div>" +
 "		</div>" +
+"	</div>" +
 "	</div>"
 );
 
 $.template(
   "sendGift",
+"	<div class='transMsgBg'>" +
 "	<div id='sendGiftForm'>" +
 "		Отправьте %% подарок" +
 "		<div class='closeWindow'>X</div>" +
@@ -90,5 +95,6 @@ $.template(
 "			<div class='gift-4' giftId='4'></div>" +
 "			<div class='gift-5' giftId='5'></div>" +
 "		</div>" +
+"	</div>" +
 "	</div>"
 );

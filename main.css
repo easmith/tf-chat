@@ -33,6 +33,15 @@ a { color: #1270b8; display:inline; text-decoration:none; border-bottom: 1px dot
 box-shadow: inset 30px 0 20px -20px #eaebef;
 }
 
+.transDialogBg {
+	display: none;
+	position:absolute;
+	top:0;
+	left:0;
+	height:100%;
+	width:100%;
+	background: rgba(0, 0, 0, 0.4);
+}
 .dialog #userInfo {
 	height: 80px;
 	padding: 10px 10px 9px 20px;
@@ -193,13 +202,13 @@ box-shadow: inset 30px 0 20px -20px #eaebef;
 .messageItem .senderName { position: absolute; width: 54px; margin-left: -60px; padding-right: 6px; text-align:right; color: #a6a6a6; font-weight: bold; }
 .messageItem .senderName.self { color: #1270b8; }
 
-.messageItem .messageContent * {  vertical-align:top; }
+.messageItem .messageContent * { vertical-align:middle; }
 .messageItem.removedMessage .messageContent { color: #a6a6a6;}
 .messageItem .messageRemove { position: absolute; width: 22px; padding-left: 6px; right:60px; top:0; display:none; cursor: pointer; }
 .messageItem:hover .messageRemove { display:inline-block; }
 .messageItem.removedMessage:hover .messageRemove { display:none; }
-.messageItem .messageTime { position: absolute; width: 54px; padding-left: 6px; right:0; top:0; }
-.messageItem.removedMessage .messageTime { background: url(stars-small.png) right 0 no-repeat;}
+.messageItem .messageTime { position: absolute; width: 50px; padding-left: 6px; right:0; top:0; margin-right:4px }
+.messageItem.removedMessage .messageTime { background: url(drop.png) right 4px no-repeat;}
 
 #messageForm textarea { width:100%; }
 #messageForm .sendGift, #messageForm .sendRate { width:150px; display: inline-block; }
@@ -232,10 +241,17 @@ box-shadow: inset 30px 0 20px -20px #eaebef;
 }
 
 #sendRateForm, #sendGiftForm {
-	position:absolute; top:50%; left: 50%;
 	width:386px; height:100px;
+	background:white;
+}
+
+.transMsgBg {
+	position:absolute; top:50%; left: 50%;
+
 	margin-left:-178px;
-	margin-top:-50px; border: 1px solid red; background:white;
+	margin-top:-50px; 
+	padding:5px;
+	background: rgba(0, 0, 0, 0.6);
 }
 
 #sendRateForm .stars {

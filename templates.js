@@ -18,10 +18,10 @@ $.template(
 "	<div calss='dialogLayout'>" +
 "	<div id='messageContainer'></div>" +
 "	<div id='messageForm'>" +
+"		<div id='sendingInfo'>Хотите узнать о прочтении вашего сообщения? <a href='' id='notifSending'>узнать</a></div>" +
 "		<form action='server.php?cmd=sendMessage&amp;from=${from}&amp;to=${to}' method='POST' id='sendMessage'>" +
-"		<div>Узнать о доставки сообщения</div>" +
 "		<textarea name='messageContent' id='messageContent'></textarea>" +
-"		<input type='submit' value='Отправить'/>" +
+"		<button class='sendBtn'>Отправить</button>" +
 "		<div class='sendGift'><a href='#' id='sendGift'>Отправить подарок</a></div>" +
 "		<div class='sendRate'><div class='srats-small'></div><a href='#' id='sendRate'>Отправить оценку</a></div>" +
 "		</form>" +

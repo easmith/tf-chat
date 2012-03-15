@@ -1,4 +1,5 @@
 <?
+//sleep(1);
 header("Content-type: text/plain; charset=utf-8");
 
 include_once './Manager/UserManager.php';

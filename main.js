@@ -1,16 +1,18 @@
 if (typeof(TF) == 'undefined') TF = {};
 
-// С‚РµРєСѓС‰РёР№ "Р·Р°Р»РѕРіРёРЅРµРЅРЅС‹Р№Р№ РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ"
+// текущий "залогиненныйй пользователь"
 TF.actor = {};
 
-// РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ СЃ РєРµРј РІРµРґРµС‚СЃСЏ РґРёР°Р»РѕРі
+// пользователь с кем ведется диалог
 TF.currentUser = {};
 
-// СЃРїРёСЃРѕРє РІСЃРµС… РїРѕР»СЊРѕРІР°С‚РµР»РµР№
+// список всех польователей
 TF.userList = {};
 
-// СЃРїРёСЃРѕРє СЃРѕРѕР±С‰РµРЅРёР№
+// список сообщений
 TF.messages = {};
+
+TF.notifSending = false;
 
 TF.actor.set = function(){
 	var uid = window.location.hash.substr(1, 32);
@@ -22,7 +24,7 @@ TF.actor.set = function(){
 			cu = i;
 		}
 	}
-	// Р•СЃР»Рё РЅРµ СѓРєР°Р·Р°РЅ РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ РІС‹Р±РёСЂР°РµРј РїРѕСЃР»РµРґРЅРµРіРѕ =)
+	// Если не указан пользователь выбираем последнего =)
 	if (cu == 0) cu = i;
 	TF.actor = TF.userList[cu];
 	window.location.hash = TF.actor.id;
@@ -75,8 +77,15 @@ TF.drawDialog = function(data)
 	{
 		TF.drawMessageItem(data[i]);
 	}
+	
 	$('#sendMessage').submit(function(){
 		return TF.sendMessage(0, $('#messageContent').val());
+	});
+
+	$('#notifSending').click(function(){
+		TF.notifSending = true;
+		$(this).parent().html("Здесь будет отображаться статус отправки...");
+		return false;
 	});
 
 	$('#sendRate').click(function(){
@@ -105,6 +114,9 @@ TF.drawDialog = function(data)
 TF.sendMessage = function(mType, mContent){
 	mContent = mContent.trim();
 	if (mContent == '') return false;
+
+	if (TF.notifSending) $("#sendingInfo").html('Отправляем...');
+
 	$.ajax({
 		url: $('#sendMessage').attr('action'),
 		type: "POST",
@@ -118,11 +130,16 @@ TF.sendMessage = function(mType, mContent){
 		success: function(data) {
 			// после отправки очищаю текст сообщения
 			if (mType == 0) $('#messageContent').val('');
+			// Устанавливаем статус отправки
+			if (TF.notifSending) $("#sendingInfo").html('Сообщение успешно отправленно!');
+
 			eval(data.cmd);
 			var mc = $("#messageContainer");
-			console.log(mc.innerHeight() + ' ' + mc.outerHeight());
-			mc.scrollTop(mc.innerHeight());
-
+			// большое значение, для исключения необходимости вычислять точную позицию
+			mc.scrollTop(3000);
+		},
+		error: function(){
+			if (TF.notifSending) $("#sendingInfo").html('Ваше сообщение не доставленно!');
 		}
 	});
 	return false;

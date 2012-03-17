@@ -45,7 +45,6 @@ $.template(
 "	</div>" 
 )
 
-
 $.template(
   "messageItem",
 "<div class='messageItem' id=${id}>" +
@@ -55,7 +54,7 @@ $.template(
 "		{{if type == '1'}}{{if content > 8}}Вам проявили симпатю!{{else}}Оценка: ${content}{{/if}}{{/if}}"+
 "		{{if type == '0'}}${content}{{/if}}"+
 "	</div>" +
-"	<div class='messageRemove'>x</div>" +
+"	<div class='messageRemove'></div>" +
 "	<div class='messageTime'>${time}</div>" +
 "</div>"
 );
@@ -64,8 +63,8 @@ $.template(
   "sendRate",
 "	<div class='transMsgBg'>" +
 "	<div id='sendRateForm'>" +
-"		Отправьте %% оценку" +
-"		<div class='closeWindow'>X</div>" +
+"		<span>Отправьте ${fName} оценку</span>" +
+"		<div class='closeWindow'></div>" +
 "		<div class='stars'>" +
 "			<div rate='1'>1</div>" +
 "			<div rate='2'>2</div>" +
@@ -86,8 +85,8 @@ $.template(
   "sendGift",
 "	<div class='transMsgBg'>" +
 "	<div id='sendGiftForm'>" +
-"		Отправьте %% подарок" +
-"		<div class='closeWindow'>X</div>" +
+"		<span>Отправьте ${fName} подарок</span>" +
+"		<div class='closeWindow'></div>" +
 "		<div class='gifts'>" +
 "			<div class='gift-1' giftId='1'></div>" +
 "			<div class='gift-2' giftId='2'></div>" +
@@ -96,5 +95,17 @@ $.template(
 "			<div class='gift-5' giftId='5'></div>" +
 "		</div>" +
 "	</div>" +
+"	</div>"
+);
+
+$.template(
+  "removeMessage",
+"	<div class='transMsgBg'>" +
+"	<div id='removeMessageForm'>" +
+"		<span>Вы действительно хотите удалить {{if type ==0}}сообщение{{/if}}{{if type ==1}}оценку{{/if}}{{if type ==2}}подарок{{/if}}?</span>" +
+"		<div class='message'>{{if type ==0}}«${content}»{{/if}}{{if type ==2}}<img src='/Storage/gift/${content}.png' />{{/if}}</div>" +
+"		<div class='closeWindow'></div>" +
+"	</div>" + 
+"	<div class='confirmControls'><button class='sendBtn'>Удалить</button><a href=''>Нет, не надо удалять</a></div>" +
 "	</div>"
 );

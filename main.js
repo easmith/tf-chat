@@ -73,6 +73,8 @@ TF.drawDialog = function(data)
 	$('#dialog').append($.tmpl('dialog', {from: TF.actor.id, to: TF.currentUser.id}));
 
 	$("#userInfo").append(TF.drawUserInfo(TF.userList[TF.currentUser.id]))
+
+	// Отрисовываем сообщения
 	for (var i in data)
 	{
 		TF.drawMessageItem(data[i]);
@@ -89,13 +91,13 @@ TF.drawDialog = function(data)
 	});
 
 	$('#sendRate').click(function(){
-		$('#dialog').append($.tmpl('sendRate', null))
+		$('.transDialogBg').append($.tmpl('sendRate', TF.currentUser))
 			.find(".stars div").click(function(){ TF.sendMessage(1, $(this).attr('rate')); $(".closeWindow").click(); });
 		$(".transDialogBg").show();
 	});
 
 	$('#sendGift').click(function(){
-		$('#dialog').append($.tmpl('sendGift', null))
+		$('.transDialogBg').append($.tmpl('sendGift', TF.currentUser))
 			.find(".gifts div").click(function(){ TF.sendMessage(2, $(this).attr('giftId')); $(".closeWindow").click(); });
 		$(".transDialogBg").show();
 	})
@@ -154,8 +156,11 @@ TF.drawMessageItem = function(data){
 	tmplData.isActor = data.from == TF.actor.id;
 	var messageItem = $.tmpl('messageItem', tmplData);
 	messageItem.find(".messageRemove").click( function(){
-		if ($(this).parent().hasClass('removedMessage')) return false;
-		TF.removeMessage(data.id)
+		var modalWindow = $('.transDialogBg').append($.tmpl('removeMessage', data))
+		modalWindow.find("button").click(function(){ TF.removeMessage(data.id); $(".closeWindow").click(); })
+		modalWindow.find("a").click( function(){$(".closeWindow").click(); return false; })
+
+		$(".transDialogBg").show();
 	});
 	$('#messageContainer').append(messageItem);
 }

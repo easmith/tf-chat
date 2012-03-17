@@ -10,10 +10,11 @@ root {
 }
 
 * {
-	font: 14px Tahoma;
+	font: 12px Tahoma;
 	position:relative;
 	margin:0px;
 	padding:0px;
+	color: #404040;
 }
 
 div { }
@@ -199,9 +200,17 @@ box-shadow: inset 30px 0 20px -20px #eaebef;
 
 .messageItem .messageContent * { vertical-align:middle; }
 .messageItem.removedMessage .messageContent { color: #a6a6a6;}
-.messageItem .messageRemove { position: absolute; width: 22px; padding-left: 6px; right:60px; top:0; display:none; cursor: pointer; }
+
+.messageItem .messageRemove {
+	position: absolute; width: 22px; height:9px;
+	padding-left: 6px; right:60px; top:7px;
+	display:none; cursor: pointer;
+
+	background: url(close.png) no-repeat;
+}
 .messageItem:hover .messageRemove { display:inline-block; }
 .messageItem.removedMessage:hover .messageRemove { display:none; }
+
 .messageItem .messageTime { position: absolute; width: 50px; padding-left: 6px; right:0; top:0; margin-right:4px }
 .messageItem.removedMessage .messageTime { background: url(drop.png) right 4px no-repeat;}
 
@@ -316,22 +325,29 @@ box-shadow: inset 0px 1px 3px -1px #000000;
 	background: url(stars-small.png) 0 -16px no-repeat;
 }
 
-#sendRateForm, #sendGiftForm {
-	width:386px; height:100px;
+#sendRateForm, #sendGiftForm, #removeMessageForm {
 	background:white;
+}
+
+#sendRateForm span, #sendGiftForm span, #removeMessageForm span
+{
+	display:inline-block;
+	margin:10px 35px 10px 15px;
 }
 
 .transMsgBg {
 	position:absolute; top:50%; left: 50%;
-
 	margin-left:-178px;
 	margin-top:-50px; 
 	padding:5px;
 	background: rgba(0, 0, 0, 0.6);
+-webkit-box-shadow: 0px 1px 24px -12px #000000;
+-moz-box-shadow: 0px 1px 24px -12px #000000;
+box-shadow: 0px 1px 24px -12px #000000; 
 }
 
-#sendRateForm .stars {
-	margin:10px;
+#sendRateForm .stars, #sendGiftForm .gifts {
+	padding:6px 10px 23px 10px;
 }
 
 #sendRateForm .stars div
@@ -350,22 +366,48 @@ box-shadow: inset 0px 1px 3px -1px #000000;
 	background: url(stars.png) -1px -35px no-repeat;
 }
 
+#sendGiftForm .gifts { height:67px; }
 #sendGiftForm .gifts div {
+	border-top:2px solid white;
+	vertical-align:bottom;
 	cursor: pointer;
 	display: inline-block;
-	height: 48px;
-	width: 48px;
+	height: 64px;
+	width: 64px;
 }
 
-.gifts .gift-1 { background: url(/Storage/gift/1.png) 0 0 no-repeat;}
-.gifts .gift-2 { background: url(/Storage/gift/2.png) 0 0 no-repeat;}
-.gifts .gift-3 { background: url(/Storage/gift/3.png) 0 0 no-repeat;}
-.gifts .gift-4 { background: url(/Storage/gift/4.png) 0 0 no-repeat;}
-.gifts .gift-5 { background: url(/Storage/gift/5.png) 0 0 no-repeat;}
+#sendGiftForm .gifts div:hover { border-top:none; border-bottom:2px solid #efefef; }
+
+.gifts .gift-1 { background: url(/Storage/gift/1.png) 0 0 no-repeat; background-size:64px; }
+.gifts .gift-2 { background: url(/Storage/gift/2.png) 0 0 no-repeat; background-size:64px; }
+.gifts .gift-3 { background: url(/Storage/gift/3.png) 0 0 no-repeat; background-size:64px; }
+.gifts .gift-4 { background: url(/Storage/gift/4.png) 0 0 no-repeat; background-size:64px; }
+.gifts .gift-5 { background: url(/Storage/gift/5.png) 0 0 no-repeat; background-size:64px; }
 
 .closeWindow {
 	position:absolute;
-	top:5px;
-	right: 5px;
+	top:6px;
+	right: 6px;
 	cursor:pointer;
+	height:9px;
+	width:9px;
+	background: url(close.png) no-repeat;
 }
+
+.confirmControls {
+	background: #efefef;
+	padding:6px 15px 6px 15px;
+}
+.confirmControls a {
+	margin-left: 15px;
+	border:none;
+	color: #969696;
+	text-decoration: underline;
+}
+
+#removeMessageForm .message {
+	color: #969696;
+	padding:5px 10px 25px 10px;
+}
+#removeMessageForm .message img { margin: 0 auto; width:96px; height: 96px; display: block;}
+

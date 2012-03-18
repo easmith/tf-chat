@@ -5,8 +5,8 @@ $.template(
 "	<div class='userName'>${fName}, ${age}</div>" +
 "	<div class='float-right'>" +
 "		<div class='userCounter'>1${counter}</div>" +
-		"<div class='userAvatar' style='background: url(&quot;/Storage/avatar/${avatar}-small.png&quot;) no-repeat scroll center center white;)'>" +
-"			<img src='/Storage/avatar/${avatar}-small.png' style='visibility: hidden;' />" +
+		"<div class='userAvatar' style='background: url(&quot;Storage/avatar/${avatar}-small.png&quot;) no-repeat scroll center center white;)'>" +
+"			<img src='Storage/avatar/${avatar}-small.png' style='visibility: hidden;' />" +
 "		</div>" +
 "	</div>" +
 "</div>"
@@ -32,8 +32,8 @@ $.template(
 
 $.template(
 "userInfo",
-"	<div class='userAvatar' style='background: url(&quot;/Storage/avatar/${avatar}-big.png&quot;) no-repeat scroll center center white;)'>" +
-"		<img src='/Storage/avatar/${avatar}-big.png' style='visibility: hidden;' />" +
+"	<div class='userAvatar' style='background: url(&quot;Storage/avatar/${avatar}-big.png&quot;) no-repeat scroll center center white;)'>" +
+"		<img src='Storage/avatar/${avatar}-big.png' style='visibility: hidden;' />" +
 "	</div>" +
 "	<div class='userProfile'>" +
 "		<div class='userName'><a href='#${id}' onclick='return false'>${fName}, ${age}</a></div>" +
@@ -50,7 +50,7 @@ $.template(
 "<div class='messageItem' id=${id}>" +
 "	<div class='senderName{{if isActor}} self{{/if}}'>${senderName}</div>" +
 "	<div class='messageContent'>" +
-"		{{if type == '2'}}<img src='/Storage/gift/${content}.png' /> Вам отправили подарок. <a href=''>Отправить в ответ</a>{{/if}}" +
+"		{{if type == '2'}}<img src='Storage/gift/${content}.png' /> Вам отправили подарок. <a href=''>Отправить в ответ</a>{{/if}}" +
 "		{{if type == '1'}}{{if content > 8}}Вам проявили симпатю!{{else}}Оценка: ${content}{{/if}}{{/if}}"+
 "		{{if type == '0'}}${content}{{/if}}"+
 "	</div>" +
@@ -103,7 +103,7 @@ $.template(
 "	<div class='transMsgBg'>" +
 "	<div id='removeMessageForm'>" +
 "		<span>Вы действительно хотите удалить {{if type ==0}}сообщение{{/if}}{{if type ==1}}оценку{{/if}}{{if type ==2}}подарок{{/if}}?</span>" +
-"		<div class='message'>{{if type ==0}}«${content}»{{/if}}{{if type ==2}}<img src='/Storage/gift/${content}.png' />{{/if}}</div>" +
+"		<div class='message'>{{if type ==0}}«${content}»{{/if}}{{if type ==2}}<img src='Storage/gift/${content}.png' />{{/if}}</div>" +
 "		<div class='closeWindow'></div>" +
 "	</div>" + 
 "	<div class='confirmControls'><button class='sendBtn'>Удалить</button><a href=''>Нет, не надо удалять</a></div>" +

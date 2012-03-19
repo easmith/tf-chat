@@ -26,12 +26,16 @@ a { color: #1270b8; display:inline; text-decoration:none; border-bottom: 1px dot
 	border-right:1px solid #eaebef;
 }
 .dialog {
-	background: #f1f4fb;
+	background: white;
 	top:-100%; height: 100%; margin-left: 220px;
-	/* TODO Р Р°Р·РѕР±СЂР°С‚СЊСЃСЏ РІ Р»РµРІРѕРј Р·Р°С‚РµРјРЅРµРЅРёРё */
+
 -webkit-box-shadow: inset 30px 0 20px -20px #eaebef;
 -moz-box-shadow: inset 30px 0 20px -20px#eaebef;
 box-shadow: inset 30px 0 20px -20px #eaebef;
+}
+
+.dialog.firstMessage,  .dialog.firstMessage #messageContainer{
+	background: #f1f4fb;
 }
 
 .transDialogBg {
@@ -158,8 +162,6 @@ border-radius: 5px;
 	box-shadow: 0 0 3px 0 black inset;
 }
 
-
-
 .userItem .userCounter {
 	padding: 0  1px;
 	color: white;
@@ -176,9 +178,11 @@ border-radius: 5px;
 	box-shadow: inset 0px 1px 1px 0px #d86200;
 }
 
-
-#messageContainer { /* height!!! */
-	height: auto; height: 200px; overflow-y: scroll; background: #ffffff;
+#messageContainer { 
+	height: auto;
+	/*height: 510px;*/
+	height: 60%;
+	overflow-y: scroll; background: #ffffff;
 -webkit-box-shadow: inset 30px 0 20px -20px #eaebef;
 -moz-box-shadow: inset 30px 0 20px -20px#eaebef;
 box-shadow: inset 30px 0 20px -20px #eaebef;
@@ -194,11 +198,12 @@ box-shadow: inset 30px 0 20px -20px #eaebef;
 
 .messageItem:hover { background: #fafafa; }
 
-.messageItem div { display: inline-block;}
+.messageItem div { display: inline-block; 	line-height:22px;}
 .messageItem .senderName { position: absolute; width: 54px; margin-left: -60px; padding-right: 6px; text-align:right; color: #a6a6a6; font-weight: bold; }
 .messageItem .senderName.self { color: #1270b8; }
 
 .messageItem .messageContent * { vertical-align:middle; }
+.messageItem .messageContent img { 	margin: 20px 10px 20px 0; }
 .messageItem.removedMessage .messageContent { color: #a6a6a6;}
 
 .messageItem .messageRemove {
@@ -211,8 +216,19 @@ box-shadow: inset 30px 0 20px -20px #eaebef;
 .messageItem:hover .messageRemove { display:inline-block; }
 .messageItem.removedMessage:hover .messageRemove { display:none; }
 
-.messageItem .messageTime { position: absolute; width: 50px; padding-left: 6px; right:0; top:0; margin-right:4px }
-.messageItem.removedMessage .messageTime { background: url(drop.png) right 4px no-repeat;}
+.messageItem .messageTime { position: absolute; width: 50px; padding-left: 6px; right:0; top:0; margin-right:4px; color: #a6a6a6; }
+.messageItem.removedMessage .messageTime { background: url(drop.png) right 7px no-repeat;}
+
+.messageItem .rateMsg {
+	margin: 20px 10px 20px 0;
+	width: 49px;
+	height:49px;
+	background: url(stars.png) 0 -73px no-repeat;
+	text-align: center;
+	line-height: 49px;
+	color: white;
+	font-size: 20px;
+}
 
 .sendBtn {
 	cursor: pointer;
@@ -282,10 +298,11 @@ box-shadow: inset 30px 0 20px -20px #eaebef;
 }
 
 #messageForm textarea {
+	padding:10px;
 	background: white;
 	border: none;
-	width: 560px; max-width: 560px; min-width: 560px;
-	height:105px; max-height:105px; min-height: 105px;
+	width: 550px; max-width: 550px; min-width: 550px;
+	height:95px; max-height:95px; min-height: 95px;
 		margin-bottom:10px;
 
 -webkit-box-shadow: inset 0px 1px 3px -1px #000000;
@@ -409,5 +426,41 @@ box-shadow: 0px 1px 24px -12px #000000;
 	color: #969696;
 	padding:5px 10px 25px 10px;
 }
-#removeMessageForm .message img { margin: 0 auto; width:96px; height: 96px; display: block;}
+#removeMessageForm .message img {
+	margin: 0 auto; padding-left:10px; width:96px; height: 96px; display: block;
+}
 
+.dialog .firstMessageBox {
+	margin: 285px auto 0 auto;
+	display:none;
+	padding: 13px 15px 15px 18px;
+	width: 530px;
+	height: 68px;
+	border-radius:6px;
+	background: white;
+-webkit-box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, .2);
+-moz-box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, .2);
+box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, .2);
+}
+
+.dialog.firstMessage .firstMessageBox {
+	display: block;
+}
+
+.firstMessageBox h3 {
+	font-size: 17px;
+	margin-bottom:5px;
+}
+
+.firstMessageBox span {
+	font-size: 12px;
+	display: block;
+	padding-bottom:10px;
+}
+
+#otherCompliment {
+	font-size: 11px;
+	position: absolute;
+	bottom: 18px;
+	right: 20px;
+}

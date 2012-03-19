@@ -12,6 +12,33 @@ TF.userList = {};
 // список сообщений
 TF.messages = {};
 
+TF.compliments = [
+	[
+		"Хороша! Даже пошлить не хочется)",
+		"Никогда не видел таких длинных ног",
+		"Ты выпала мне не случайно",
+		"Какая у тебя гладкая кожа",
+		"Если бы можно было убивать взглядом, тебя бы уже посадили за убийство",
+		"Тебя надо клонировать, чтобы осчастливить побольше мужчин!",
+		"Ты – лучшее, что создал бог!",
+		"Сразила наповал!",
+		"Секси-шмекси ",
+		"Я в восхищении",
+	],
+	[
+		"Отдаюсь в хорошие руки. По-моему, у тебя именно такие",
+		"Бунтарь",
+		"Сводишь с ума!",
+		"Вот тебя-то мне для полного счастья и не хватало!",
+		"Импозантный мужчина",
+		"Мистер Позитив",
+		"Ты бы меня спас, если бы я тонула?",
+		"Вау, какой пресс!",
+		"А я думала, настоящие мужчины вымерли…",
+		"Ты такой сладкий, а я сладкоежка",
+	]
+];
+
 TF.notifSending = false;
 
 TF.actor.set = function(){
@@ -74,12 +101,21 @@ TF.drawDialog = function(data)
 
 	$("#userInfo").append(TF.drawUserInfo(TF.userList[TF.currentUser.id]))
 
-	// Отрисовываем сообщения
-	for (var i in data)
+	// Отрисовываем сообщения, если есть они
+	if (Object.keys(data).length)
 	{
-		TF.drawMessageItem(data[i]);
+		$("#dialog").removeClass('firstMessage');
+		for (var i in data) TF.drawMessageItem(data[i]);
 	}
-	
+	else
+	{
+		$("#dialog").addClass('firstMessage');
+		$('#messageContainer').append($.tmpl('firstMessage', {}));
+		TF.changeCompliment();
+		$("#otherCompliment").click(function(){ TF.changeCompliment(); return false; })
+		$("#compliment").click(function(){ TF.setCompliment($(this).attr('complimentId')); return false; })
+	}
+
 	$('#sendMessage').submit(function(){
 		return TF.sendMessage(0, $('#messageContent').val());
 	});
@@ -111,6 +147,19 @@ TF.drawDialog = function(data)
 
 
 	TF.setUserCounter(TF.currentUser.id, 0);
+}
+
+TF.changeCompliment = function()
+{
+	var compliments = TF.compliments[TF.currentUser.sex];
+	var complimentId = Math.floor(Math.random() * compliments.length);
+	$("#compliment").attr('complimentId', complimentId);
+	$("#compliment").html("«" + compliments[complimentId] + "»");
+	return false;
+}
+
+TF.setCompliment = function(complimentId){
+	$("#messageContent").val(TF.compliments[TF.currentUser.sex][complimentId]);
 }
 
 TF.sendMessage = function(mType, mContent){
@@ -148,6 +197,7 @@ TF.sendMessage = function(mType, mContent){
 }
 
 TF.drawMessageItem = function(data){
+	$("#dialog").removeClass('firstMessage');
 	var date = new Date(data.ts * 1000);
 	var tmplData = data;
 	tmplData.time = date.getHours() + ':' + date.getMinutes();
@@ -225,6 +275,11 @@ $().ready(function(){
 			$(".transMsgBg").remove();
 			$(".transDialogBg").hide();
 		});
+
+		$("#messageContainer").scroll(function(){
+               alert('asdasd');
+       });
+
 
 		TF.getUserList();
 

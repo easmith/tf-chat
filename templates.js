@@ -50,12 +50,25 @@ $.template(
 "<div class='messageItem' id=${id}>" +
 "	<div class='senderName{{if isActor}} self{{/if}}'>${senderName}</div>" +
 "	<div class='messageContent'>" +
-"		{{if type == '2'}}<img src='Storage/gift/${content}.png' /> Вам отправили подарок. <a href=''>Отправить в ответ</a>{{/if}}" +
-"		{{if type == '1'}}{{if content > 8}}Вам проявили симпатю!{{else}}Оценка: ${content}{{/if}}{{/if}}"+
+"		{{if type == '2'}}<img src='Storage/gift/${content}.png' width=50 height=50 /> Вам отправили подарок. <a href=''>Отправить в ответ</a>{{/if}}" +
+"		{{if type == '1'}}" + 
+"				{{if content > 8}}Вам проявили симпатию!" +
+"				{{else}}<div class='rateMsg'>${content}</div> Вас оценили. <a href=''>Оценить в ответ!</a>{{/if}}" +
+"		{{/if}}"+
 "		{{if type == '0'}}${content}{{/if}}"+
 "	</div>" +
 "	<div class='messageRemove'></div>" +
 "	<div class='messageTime'>${time}</div>" +
+"</div>"
+);
+
+$.template(
+  "firstMessage",
+"<div class='firstMessageBox'>" +
+"	<h3>Начни с интересной фразы</h3>" +
+"		<span>Произведи хорошее впечатление</span>" +
+"		<a href='' id='compliment'>Чертовски привлекательный</a>" +
+"		<a href='' id='otherCompliment'>Другой комплимент</a>" +
 "</div>"
 );
 

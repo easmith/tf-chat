@@ -47,14 +47,23 @@ $.template(
 
 $.template(
   "messageItem",
-"<div class='messageItem' id=${id}>" +
+"<div class='messageItem {{if type == '1'}}rate{{/if}}' id='${id}'>" +
 "	<div class='senderName{{if isActor}} self{{/if}}'>${senderName}</div>" +
 "	<div class='messageContent'>" +
-"		{{if type == '2'}}<img src='Storage/gift/${content}.png' width=50 height=50 /> Вам отправили подарок. <a href=''>Отправить в ответ</a>{{/if}}" +
-"		{{if type == '1'}}" + 
-"				{{if content > 8}}Вам проявили симпатию!" +
-"				{{else}}<div class='rateMsg'>${content}</div> Вас оценили. <a href=''>Оценить в ответ!</a>{{/if}}" +
-"		{{/if}}"+
+"		{{if type == '2'}}<img src='Storage/gift/${content}.png' width=50 height=50 />" +
+"				{{if isActor}}Вы{{else}}Вам{{/if}} отправили подарок. <a href='' class='msgSendGift'>Отправить {{if isActor}}еще{{else}}в ответ{{/if}}</a>{{/if}}" +
+"		{{if type == '1'}}" +
+"			{{if content > 8}}" +
+"				{{if isMutually}}<div class='mutally'></div><div>У вас взаимная симпатия!</br><a href='' class='msgSendGift'>Подарок</a> - лучший способ продолжить отношения.</div>" +
+"				{{else}}" +
+"					<div class='sympathy'></div><div>" +
+"					{{if isActor}}Вы проявили симпатию!</br><a href='' class='msgSendGift'>Подарок</a> - лучший способ продолжить отношения." +
+"					{{else}}Ты понравил{{if sex == 1}}ся{{else}}ась{{/if}}. <a href='' class='msgSendMutally'>Отправить взаимную симпатию!</a>" +
+"					{{/if}}</div>" +
+"				{{/if}}" +
+"			{{else}}<div class='rateMsg'>${content}</div>" +
+"					{{if isActor}}Вы{{else}}Ваc{{/if}} оценили. <a href='' class='msgSendRate'>Оценить {{if isActor}}еще{{else}}в ответ{{/if}}!</a>{{/if}}" +
+"			{{/if}}"+
 "		{{if type == '0'}}${content}{{/if}}"+
 "	</div>" +
 "	<div class='messageRemove'></div>" +

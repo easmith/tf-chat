@@ -127,13 +127,17 @@ TF.drawDialog = function(data)
 	});
 
 	$('#sendRate').click(function(){
-		$('.transDialogBg').append($.tmpl('sendRate', TF.currentUser))
+		var user = TF.currentUser;
+		user.fName = rusNameDeclension.get(user.fName);
+		$('.transDialogBg').append($.tmpl('sendRate', user))
 			.find(".stars div").click(function(){ TF.sendMessage(1, $(this).attr('rate')); $(".closeWindow").click(); });
 		$(".transDialogBg").show();
 	});
 
 	$('#sendGift').click(function(){
-		$('.transDialogBg').append($.tmpl('sendGift', TF.currentUser))
+		var user = TF.currentUser;
+		user.fName = rusNameDeclension.get(user.fName);
+		$('.transDialogBg').append($.tmpl('sendGift', user))
 			.find(".gifts div").click(function(){ TF.sendMessage(2, $(this).attr('giftId')); $(".closeWindow").click(); });
 		$(".transDialogBg").show();
 	})
@@ -203,7 +207,9 @@ TF.drawMessageItem = function(data){
 	tmplData.time = date.getHours() + ':' + date.getMinutes();
 	tmplData.content = data.content;
 	tmplData.senderName = TF.userList[data.from].fName;
+	tmplData.sex = TF.actor.sex;
 	tmplData.isActor = data.from == TF.actor.id;
+	tmplData.isMutually = TF.isMutually(data);
 	var messageItem = $.tmpl('messageItem', tmplData);
 	messageItem.find(".messageRemove").click( function(){
 		var modalWindow = $('.transDialogBg').append($.tmpl('removeMessage', data))
@@ -213,6 +219,21 @@ TF.drawMessageItem = function(data){
 		$(".transDialogBg").show();
 	});
 	$('#messageContainer').append(messageItem);
+}
+
+TF.isMutually = function (data)
+{
+	if (parseInt(data.type) != 1 || parseInt(data.content) < 8) return 0;
+	for (var i in TF.messages)
+	{
+		if (TF.messages[i].id == data.id) return 0;
+		if (TF.messages[i].from == data.to && TF.messages[i].type == 1 && parseInt(TF.messages[i].content) > 7)
+		{
+			console.log(TF.messages[i].from + ' =' + data.to + ' ' + TF.messages[i].type + ' ' + parseInt(TF.messages[i].content));
+			return 1;
+		}
+	}
+	return 0;
 }
 
 TF.removeMessage = function(mId)
@@ -275,6 +296,10 @@ $().ready(function(){
 			$(".transMsgBg").remove();
 			$(".transDialogBg").hide();
 		});
+
+		$(window).delegate('.msgSendGift', 'click', function () { $("#sendGift").click(); return false;});
+		$(window).delegate('.msgSendRate', 'click', function () { $("#sendRate").click(); return false;});
+		$(window).delegate('.msgSendMutally', 'click', function () { TF.sendMessage(1, "10"); return false;});
 
 		$("#messageContainer").scroll(function(){
                alert('asdasd');

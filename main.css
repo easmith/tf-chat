@@ -2,8 +2,6 @@
     Document   : main
     Created on : 28.02.2012, 21:55:57
     Author     : Eugene Smith
-    Description:
-        Purpose of the stylesheet follows.
 */
 root { 
     display: block;
@@ -19,7 +17,7 @@ root {
 
 div { }
 a { color: #1270b8; display:inline; text-decoration:none; border-bottom: 1px dotted #1270b8; }
-
+ui { list-style: none; }
 .main { height: 100%; width: 100%; position: relative; overflow: hidden;}
 .userList {
 	width:219px; height:100%; background: white; top:0; display: inline-block;
@@ -311,6 +309,15 @@ box-shadow: inset 30px 0 20px -20px #eaebef;
 	padding: 10px 0 10px 0;
 }
 
+#sendingInfo .msgStatus {
+	background: url(img/attention.png) 0 0 no-repeat;
+	height: 12px;
+	width: 12px;
+	display: inline-block;
+	vertical-align: middle;
+	margin-right: 5px;
+}
+
 #messageForm textarea {
 	padding:10px;
 	background: white;
@@ -356,18 +363,28 @@ box-shadow: inset 0px 1px 3px -1px #000000;
 	background: url(img/stars-small.png) 0 -16px no-repeat;
 }
 
-#sendRateForm, #sendGiftForm, #removeMessageForm {
+#sendRateForm, #removeMessageForm {
 	max-width:400px;
 	background:white;
 }
 
-#sendRateForm span, #sendGiftForm span, #removeMessageForm span
+#sendRateForm span, #removeMessageForm span
 {
 	display:inline-block;
 	margin:10px 35px 10px 15px;
 }
 
 .transMsgBg {
+	position:absolute; top:50px; left: 50%;
+	margin-left:-300px;
+	padding:5px;
+	background: rgba(0, 0, 0, 0.6);
+-webkit-box-shadow: 0px 1px 24px -12px #000000;
+-moz-box-shadow: 0px 1px 24px -12px #000000;
+box-shadow: 0px 1px 24px -12px #000000;
+}
+
+.transDialog .transMsgBg {
 	position:absolute; top:50%; left: 50%;
 	margin-left:-178px;
 	margin-top:-50px;
@@ -378,7 +395,7 @@ box-shadow: inset 0px 1px 3px -1px #000000;
 box-shadow: 0px 1px 24px -12px #000000; 
 }
 
-#sendRateForm .stars, #sendGiftForm .gifts {
+#sendRateForm .stars {
 	padding:6px 10px 23px 10px;
 }
 
@@ -397,24 +414,6 @@ box-shadow: 0px 1px 24px -12px #000000;
 #sendRateForm .stars div:hover {
 	background: url(img/stars.png) -1px -35px no-repeat;
 }
-
-#sendGiftForm .gifts { height:67px; }
-#sendGiftForm .gifts div {
-	border-top:2px solid white;
-	vertical-align:bottom;
-	cursor: pointer;
-	display: inline-block;
-	height: 64px;
-	width: 64px;
-}
-
-#sendGiftForm .gifts div:hover { border-top:none; border-bottom:2px solid #efefef; }
-
-.gifts .gift-1 { background: url(Storage/gift/1.png) 0 0 no-repeat; background-size:64px; }
-.gifts .gift-2 { background: url(Storage/gift/2.png) 0 0 no-repeat; background-size:64px; }
-.gifts .gift-3 { background: url(Storage/gift/3.png) 0 0 no-repeat; background-size:64px; }
-.gifts .gift-4 { background: url(Storage/gift/4.png) 0 0 no-repeat; background-size:64px; }
-.gifts .gift-5 { background: url(Storage/gift/5.png) 0 0 no-repeat; background-size:64px; }
 
 .closeWindow {
 	position:absolute;
@@ -478,4 +477,86 @@ box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, .2);
 	position: absolute;
 	bottom: 18px;
 	right: 20px;
+}
+
+#sendGiftForm {
+	position: relative;
+	width: 635px;
+	height: 656px;
+	padding: 20px;
+	background: white;
+	display: block;
+}
+
+#sendGiftForm h2 {
+	margin-bottom: 20px;
+	font-size: 20px;
+}
+
+#sendGiftForm .gifts {
+	border-top: 1px solid red;
+	height:75px;
+	margin-bottom: 20px;
+	padding: 13px 10px 12px 10px;
+}
+#sendGiftForm .gifts .giftsBox {
+	height:75px;
+	width:600px;
+	overflow: hidden;
+}
+#sendGiftForm .gifts ui {
+	left:0;
+	height: 75px;
+	position: absolute;
+	overflow: hidden;
+}
+
+#sendGiftForm .giftsHead {
+	text-transform:uppercase;
+	position: absolute;
+	top: -10px;
+	left: 0;
+	background: white;
+}
+
+#sendGiftForm .scrollBtn
+{
+	background-color: rgba(0,0,0,0.4);
+-webkit-border-radius: 37px;
+-moz-border-radius: 37px;
+border-radius: 37px;
+	width: 37px;
+	height: 37px;
+	cursor: pointer;
+}
+
+#sendGiftForm .arrowLeft {
+	display: none;
+	position: absolute;
+	top: 30px;
+	left: 0;
+}
+
+#sendGiftForm .arrowRight {
+	position: absolute;
+	top: 30px;
+	right: 0;
+}
+#sendGiftForm a.howVIP {
+	color: red;
+	border: none;
+	text-decoration: underline;
+}
+
+
+#sendGiftForm .closeWindow {
+	height: 51px;
+	width: 51px;
+	top:0;
+	right:0;
+	background-color: #cccccc;
+	background-position: 25px 25px;
+-webkit-border-radius: 3px;
+-moz-border-radius: 3px;
+border-radius: 3px;
 }

@@ -137,9 +137,9 @@ TF.drawDialog = function(data)
 	$('#sendGift').click(function(){
 		var user = TF.currentUser;
 		user.fName = rusNameDeclension.get(user.fName);
-		$('.transDialogBg').append($.tmpl('sendGift', user))
-			.find(".gifts div").click(function(){ TF.sendMessage(2, $(this).attr('giftId')); $(".closeWindow").click(); });
-		$(".transDialogBg").show();
+		$('.main').append($.tmpl('sendGift', user))
+			.find(".scrollBtn").click(function(){ TF.scrollGift(this) });
+		$(".main").show();
 	})
 
 	$('#messageContent').keydown(function (e){
@@ -167,7 +167,7 @@ TF.setCompliment = function(complimentId){
 }
 
 TF.sendMessage = function(mType, mContent){
-	mContent = mContent.trim();
+	if (isNaN(parseInt(mContent))) mContent = mContent.trim();
 	if (mContent == '') return false;
 
 	if (TF.notifSending) $("#sendingInfo").html('Отправляем...');
@@ -191,7 +191,7 @@ TF.sendMessage = function(mType, mContent){
 			eval(data.cmd);
 			var mc = $("#messageContainer");
 			// большое значение, для исключения необходимости вычислять точную позицию
-			mc.scrollTop(3000);
+			mc.animate({scrollLeft: mc.scrollTop() + 100}, 'slow');
 		},
 		error: function(){
 			if (TF.notifSending) $("#sendingInfo").html('Ваше сообщение не доставленно!');
@@ -218,7 +218,7 @@ TF.drawMessageItem = function(data){
 
 		$(".transDialogBg").show();
 	});
-	$('#messageContainer').append(messageItem);
+	$('#messageContainer ui').append(messageItem);
 }
 
 TF.isMutually = function (data)
@@ -229,11 +229,27 @@ TF.isMutually = function (data)
 		if (TF.messages[i].id == data.id) return 0;
 		if (TF.messages[i].from == data.to && TF.messages[i].type == 1 && parseInt(TF.messages[i].content) > 7)
 		{
-			console.log(TF.messages[i].from + ' =' + data.to + ' ' + TF.messages[i].type + ' ' + parseInt(TF.messages[i].content));
 			return 1;
 		}
 	}
 	return 0;
+}
+
+TF.scrollGift = function(obj)
+{
+	var cont = $(obj).parent().find("ui");
+	var maxPos = ($(obj).parent().find("ui li").siblings().length - 7) * (-75);
+	var currentValue = parseInt(cont.css("left"));
+	var newPos = currentValue + ($(obj).hasClass("arrowLeft") ? 75 : -75);
+	newPos = newPos - (newPos % 75);
+	console.log(newPos + " " + maxPos);
+	if (newPos < maxPos || newPos > 0)
+	{
+		$(obj).hide();
+		return false;
+	}
+	$(obj).parent().find("." + ($(obj).hasClass("arrowLeft") ? "arrowRight" : "arrowLeft")).show();
+	cont.animate({left : newPos}, "fast");
 }
 
 TF.removeMessage = function(mId)
@@ -292,9 +308,14 @@ TF.setUserCounter = function(uId, counter)
 
 
 $().ready(function(){
-		$("#dialog").delegate('.closeWindow', 'click', function(){
+		$(window).delegate('.closeWindow', 'click', function(){
 			$(".transMsgBg").remove();
 			$(".transDialogBg").hide();
+		});
+
+		$(window).delegate("li.gift", "click", function(){
+			TF.sendMessage(2, $(this).attr('giftId'));
+			$(".closeWindow").click();
 		});
 
 		$(window).delegate('.msgSendGift', 'click', function () { $("#sendGift").click(); return false;});

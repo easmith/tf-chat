@@ -16,9 +16,9 @@ $.template(
   "dialog",
 "	<div id='userInfo'></div>" +
 "	<div calss='dialogLayout'>" +
-"	<div id='messageContainer'></div>" +
+"	<div id='messageContainer'><ui></ui></div>" +
 "	<div id='messageForm'>" +
-"		<div id='sendingInfo'>Хотите узнать о прочтении вашего сообщения? <a href='' id='notifSending'>узнать</a></div>" +
+"		<div id='sendingInfo'><div class='msgStatus sending'></div><span>Хотите узнать о прочтении вашего сообщения? <a href='' id='notifSending'>узнать</a></span></div>" +
 "		<form action='server.php?cmd=sendMessage&amp;from=${from}&amp;to=${to}' method='POST' id='sendMessage'>" +
 "		<textarea name='messageContent' id='messageContent'></textarea>" +
 "		<button class='sendBtn'>Отправить</button>" +
@@ -47,7 +47,7 @@ $.template(
 
 $.template(
   "messageItem",
-"<div class='messageItem {{if type == '1'}}rate{{/if}}' id='${id}'>" +
+"<li class='messageItem {{if type == '1'}}rate{{/if}}' id='${id}'>" +
 "	<div class='senderName{{if isActor}} self{{/if}}'>${senderName}</div>" +
 "	<div class='messageContent'>" +
 "		{{if type == '2'}}<img src='Storage/gift/${content}.png' width=50 height=50 />" +
@@ -68,7 +68,7 @@ $.template(
 "	</div>" +
 "	<div class='messageRemove'></div>" +
 "	<div class='messageTime'>${time}</div>" +
-"</div>"
+"</li>"
 );
 
 $.template(
@@ -107,15 +107,47 @@ $.template(
   "sendGift",
 "	<div class='transMsgBg'>" +
 "	<div id='sendGiftForm'>" +
-"		<span>Отправьте ${fName} подарок</span>" +
+"		<h2>Подарки</h2>" +
 "		<div class='closeWindow'></div>" +
+"		<div class='gifts'>"+
+"			<div class='giftsHead'>ПОДАРКИ ЗА 6</div>" +
+"			<div class='giftsBox'><ui>{{each(i,giftId) [1,2,3,4,5,6,7,8,9,10,11,12,13]}} " +
+"					<li class='gift gift-${giftId}' giftId='${giftId}'></li>" +
+"			{{/each}}</ui></div>" +
+"			<div class='scrollBtn arrowLeft'> + </div>" +
+"			<div class='scrollBtn arrowRight'> + </div>" +
+"		</div>"+
 "		<div class='gifts'>" +
-"			<div class='gift-1' giftId='1'></div>" +
-"			<div class='gift-2' giftId='2'></div>" +
-"			<div class='gift-3' giftId='3'></div>" +
-"			<div class='gift-4' giftId='4'></div>" +
-"			<div class='gift-5' giftId='5'></div>" +
+"			<div class='giftsHead'>ПОДАРКИ ЗА 6</div>" +
+"			<div class='giftsBox'><ui>{{each(i,giftId) [14,15,16,17,18,19,20,21,22,23]}} " +
+"				<li class='gift gift-${giftId}' giftId='${giftId}'></li>" +
+"			{{/each}}</ui></div>" +
+"			<div class='scrollBtn arrowLeft'> + </div>" +
+"			<div class='scrollBtn arrowRight'> + </div>" +
 "		</div>" +
+"		<div class='gifts'>" +
+"			<div class='giftsHead'>ПОДАРКИ ЗА 12</div>" +
+"			<div class='giftsBox'><ui>{{each(i,giftId) [24,25,26,27,28,29,30,31,32,33]}} " +
+"				<li class='gift gift-${giftId}' giftId='${giftId}'></li>" +
+"			{{/each}}</ui></div>" +
+"			<div class='scrollBtn arrowLeft'> + </div>" +
+"			<div class='scrollBtn arrowRight'> + </div>" +
+"		</div>" +
+"		<div class='gifts'>" +
+"			<div class='giftsHead'>ПОДАРКИ ЗА 18</div>" +
+"			<div class='giftsBox'><ui>{{each(i,giftId) [50,51,52,53,54,55,56,57,58,59]}} " +
+"				<li class='gift gift-${giftId}' giftId='${giftId}'></li>" +
+"			{{/each}}</ui></div>" +
+"			<div class='scrollBtn arrowLeft'> + </div>" +
+"			<div class='scrollBtn arrowRight'> + </div>" +
+"		</div>" +
+"		<div class='gifts vip'>" +
+"			<div class='giftsHead'>ПОДАРКИ ЗА 1 <img src=''/> - доступно только для пользователей со статусом VIP</div>" +
+"			<div class='giftsBox'><ui>{{each(i,giftId) [101,102,103]}} " +
+"				<li class='gift gift-${giftId}' giftId='${giftId}'></li>" +
+"			{{/each}}</ui></div>" +
+"		</div>" +
+"		<a href='javascript:' class='howVIP'>Как стать VIP</a>" +
 "	</div>" +
 "	</div>"
 );

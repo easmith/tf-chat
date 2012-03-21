@@ -1,0 +1,172 @@
+/* 
+    Document   : gifts
+    Created on : 21.03.2012, 20:14:24
+    Author     : Angelina
+    Author     : Eugene Smith
+*/
+.gifts .gift {
+	border: none;
+	height: 75px; width: 75px;
+	display: inline-block;
+	background-image: url(Storage/gift/gifts_sprite.jpg);
+-webkit-border-radius: 5px;
+-moz-border-radius: 5px;
+border-radius: 5px; 
+}
+
+.gifts .gift:hover {
+
+-webkit-box-shadow: inset 0px 0px 3px 0px rgba(0, 0, 0, 0.4);
+-moz-box-shadow: inset 0px 0px 3px 0px rgba(0, 0, 0, 0.4);
+box-shadow: inset 0px 0px 3px 0px rgba(0, 0, 0, 0.4);
+}
+
+.gifts .gift-1 { background-position: 0px top; }
+.gifts .gift-2 { background-position: 75px top; }
+.gifts .gift-3 { background-position: 150px top; }
+.gifts .gift-4 { background-position: 225px top; }
+.gifts .gift-5 { background-position: 300px top; }
+.gifts .gift-6 { background-position: 375px top; }
+.gifts .gift-7 { background-position: 450px top; }
+.gifts .gift-8 { background-position: 525px top; }
+.gifts .gift-9 { background-position: 600px top; }
+.gifts .gift-10 { background-position: 675px top; }
+.gifts .gift-11 { background-position: 750px top; }
+.gifts .gift-12 { background-position: 825px top; }
+.gifts .gift-13 { background-position: 900px top; }
+.gifts .gift-14 { background-position: 975px top; }
+.gifts .gift-15 { background-position: 1050px top; }
+.gifts .gift-16 { background-position: 1125px top; }
+.gifts .gift-17 { background-position: 1200px top; }
+.gifts .gift-18 { background-position: 1275px top; }
+.gifts .gift-19 { background-position: 1350px top; }
+.gifts .gift-20 { background-position: 1425px top; }
+.gifts .gift-21 { background-position: 1500px top; }
+.gifts .gift-22 { background-position: 1575px top; }
+.gifts .gift-23 { background-position: 1650px top; }
+.gifts .gift-24 { background-position: 1725px top; }
+.gifts .gift-25 { background-position: 1800px top; }
+.gifts .gift-26 { background-position: 1875px top; }
+.gifts .gift-27 { background-position: 1950px top; }
+.gifts .gift-28 { background-position: 2025px top; }
+.gifts .gift-29 { background-position: 2100px top; }
+.gifts .gift-30 { background-position: 2175px top; }
+.gifts .gift-31 { background-position: 2250px top; }
+.gifts .gift-32 { background-position: 2325px top; }
+.gifts .gift-33 { background-position: 2400px top; }
+.gifts .gift-34 { background-position: 2475px top; }
+.gifts .gift-35 { background-position: 2550px top; }
+.gifts .gift-36 { background-position: 2625px top; }
+.gifts .gift-37 { background-position: 2700px top; }
+.gifts .gift-38 { background-position: 2775px top; }
+.gifts .gift-39 { background-position: 2850px top; }
+.gifts .gift-40 { background-position: 2925px top; }
+.gifts .gift-41 { background-position: 3000px top; }
+.gifts .gift-42 { background-position: 3075px top; }
+.gifts .gift-43 { background-position: 3150px top; }
+.gifts .gift-44 { background-position: 3225px top; }
+.gifts .gift-45 { background-position: 3300px top; }
+.gifts .gift-46 { background-position: 3375px top; }
+.gifts .gift-47 { background-position: 3450px top; }
+.gifts .gift-48 { background-position: 3525px top; }
+.gifts .gift-49 { background-position: 3600px top; }
+.gifts .gift-50 { background-position: 3675px top; }
+.gifts .gift-51 { background-position: 3750px top; }
+.gifts .gift-52 { background-position: 3825px top; }
+.gifts .gift-53 { background-position: 3900px top; }
+.gifts .gift-54 { background-position: 3975px top; }
+.gifts .gift-55 { background-position: 4050px top; }
+.gifts .gift-56 { background-position: 4125px top; }
+.gifts .gift-57 { background-position: 4200px top; }
+.gifts .gift-58 { background-position: 4275px top; }
+.gifts .gift-59 { background-position: 4350px top; }
+.gifts .gift-60 { background-position: 4425px top; }
+.gifts .gift-61 { background-position: 4500px top; }
+.gifts .gift-62 { background-position: 4575px top; }
+.gifts .gift-63 { background-position: 4650px top; }
+.gifts .gift-64 { background-position: 4725px top; }
+.gifts .gift-65 { background-position: 4800px top; }
+.gifts .gift-66 { background-position: 4875px top; }
+.gifts .gift-67 { background-position: 4950px top; }
+.gifts .gift-68 { background-position: 5025px top; }
+.gifts .gift-69 { background-position: 5100px top; }
+.gifts .gift-70 { background-position: 5175px top; }
+.gifts .gift-71 { background-position: 5250px top; }
+.gifts .gift-72 { background-position: 5325px top; }
+.gifts .gift-73 { background-position: 5400px top; }
+.gifts .gift-74 { background-position: 5475px top; }
+.gifts .gift-75 { background-position: 5550px top; }
+.gifts .gift-76 { background-position: 5625px top; }
+.gifts .gift-77 { background-position: 5700px top; }
+.gifts .gift-78 { background-position: 5775px top; }
+.gifts .gift-79 { background-position: 5850px top; }
+.gifts .gift-80 { background-position: 5925px top; }
+.gifts .gift-81 { background-position: 6000px top; }
+.gifts .gift-82 { background-position: 6075px top; }
+.gifts .gift-83 { background-position: 6150px top; }
+.gifts .gift-84 { background-position: 6225px top; }
+.gifts .gift-85 { background-position: 6300px top; }
+.gifts .gift-86 { background-position: 6375px top; }
+.gifts .gift-87 { background-position: 6450px top; }
+.gifts .gift-88 { background-position: 6525px top; }
+.gifts .gift-89 { background-position: 6600px top; }
+.gifts .gift-90 { background-position: 6675px top; }
+.gifts .gift-91 { background-position: 6750px top; }
+.gifts .gift-92 { background-position: 6825px top; }
+.gifts .gift-93 { background-position: 6900px top; }
+.gifts .gift-94 { background-position: 6975px top; }
+.gifts .gift-95 { background-position: 7050px top; }
+.gifts .gift-96 { background-position: 7125px top; }
+.gifts .gift-97 { background-position: 7200px top; }
+.gifts .gift-98 { background-position: 7275px top; }
+.gifts .gift-99 { background-position: 7350px top; }
+.gifts .gift-100 { background-position: 7425px top; }
+.gifts .gift-101 { background-position: 7500px top; }
+.gifts .gift-102 { background-position: 7575px top; }
+.gifts .gift-103 { background-position: 7650px top; }
+.gifts .gift-104 { background-position: 7725px top; }
+.gifts .gift-105 { background-position: 7800px top; }
+.gifts .gift-106 { background-position: 7875px top; }
+.gifts .gift-107 { background-position: 7950px top; }
+.gifts .gift-108 { background-position: 8025px top; }
+.gifts .gift-109 { background-position: 8100px top; }
+.gifts .gift-110 { background-position: 8175px top; }
+.gifts .gift-111 { background-position: 8250px top; }
+.gifts .gift-112 { background-position: 8325px top; }
+.gifts .gift-113 { background-position: 8400px top; }
+.gifts .gift-114 { background-position: 8475px top; }
+.gifts .gift-115 { background-position: 8550px top; }
+.gifts .gift-116 { background-position: 8625px top; }
+.gifts .gift-117 { background-position: 8700px top; }
+.gifts .gift-118 { background-position: 8775px top; }
+.gifts .gift-119 { background-position: 8850px top; }
+.gifts .gift-120 { background-position: 8925px top; }
+.gifts .gift-121 { background-position: 9000px top; }
+.gifts .gift-122 { background-position: 9075px top; }
+.gifts .gift-123 { background-position: 9150px top; }
+.gifts .gift-124 { background-position: 9225px top; }
+.gifts .gift-125 { background-position: 9300px top; }
+.gifts .gift-126 { background-position: 9375px top; }
+.gifts .gift-127 { background-position: 9450px top; }
+.gifts .gift-128 { background-position: 9525px top; }
+.gifts .gift-129 { background-position: 9600px top; }
+.gifts .gift-130 { background-position: 9675px top; }
+.gifts .gift-131 { background-position: 9750px top; }
+.gifts .gift-132 { background-position: 9825px top; }
+.gifts .gift-133 { background-position: 9900px top; }
+.gifts .gift-134 { background-position: 9975px top; }
+.gifts .gift-135 { background-position: 10050px top; }
+.gifts .gift-136 { background-position: 10125px top; }
+.gifts .gift-137 { background-position: 10200px top; }
+.gifts .gift-138 { background-position: 10275px top; }
+.gifts .gift-139 { background-position: 10350px top; }
+.gifts .gift-140 { background-position: 10425px top; }
+.gifts .gift-141 { background-position: 10500px top; }
+.gifts .gift-142 { background-position: 10575px top; }
+.gifts .gift-143 { background-position: 10650px top; }
+.gifts .gift-144 { background-position: 10725px top; }
+.gifts .gift-145 { background-position: 10800px top; }
+.gifts .gift-146 { background-position: 10875px top; }
+.gifts .gift-147 { background-position: 10950px top; }
+.gifts .gift-148 { background-position: 11025px top; }
+.gifts .gift-149 { background-position: 11100px top; }

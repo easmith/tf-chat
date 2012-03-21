@@ -232,7 +232,7 @@ box-shadow: inset 30px 0 20px -20px #eaebef;
 .messageItem.removedMessage .messageTime { background: url(img/drop.png) right 7px no-repeat;}
 
 .messageItem.rate div.rateMsg {
-	margin: 20px 10px 20px 0;
+	margin: 20px 8px 20px 0;
 	width: 49px;
 	height:49px;
 	background: url(img/stars.png) 0 -73px no-repeat;
@@ -440,8 +440,8 @@ box-shadow: 0px 1px 24px -12px #000000;
 	color: #969696;
 	padding:5px 10px 25px 10px;
 }
-#removeMessageForm .message img {
-	margin: 0 auto; padding-left:10px; width:96px; height: 96px; display: block;
+#removeMessageForm .message .gift{
+	left: 110px;
 }
 
 .dialog .firstMessageBox {

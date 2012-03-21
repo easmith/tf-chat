@@ -48,9 +48,9 @@ $.template(
 $.template(
   "messageItem",
 "<li class='messageItem {{if type == '1'}}rate{{/if}}' id='${id}'>" +
-"	<div class='senderName{{if isActor}} self{{/if}}'>${senderName}</div>" +
+"	<div class='senderName{{if isActor}} self{{/if}}'>{{if !isPrevSender}}${senderName}{{/if}}</div>" +
 "	<div class='messageContent'>" +
-"		{{if type == '2'}}<img src='Storage/gift/${content}.png' width=50 height=50 />" +
+"		{{if type == '2'}}<div class='gift gift-${content}'></div>" +
 "				{{if isActor}}Вы{{else}}Вам{{/if}} отправили подарок. <a href='' class='msgSendGift'>Отправить {{if isActor}}еще{{else}}в ответ{{/if}}</a>{{/if}}" +
 "		{{if type == '1'}}" +
 "			{{if content > 8}}" +
@@ -88,16 +88,9 @@ $.template(
 "		<span>Отправьте ${fName} оценку</span>" +
 "		<div class='closeWindow'></div>" +
 "		<div class='stars'>" +
-"			<div rate='1'>1</div>" +
-"			<div rate='2'>2</div>" +
-"			<div rate='3'>3</div>" +
-"			<div rate='4'>4</div>" +
-"			<div rate='5'>5</div>" +
-"			<div rate='6'>6</div>" +
-"			<div rate='7'>7</div>" +
-"			<div rate='8'>8</div>" +
-"			<div rate='9'>9</div>" +
-"			<div rate='10'>10</div>" +
+"			{{each(i,rate) [1,2,3,4,5,6,7,8,9,10]}} " +
+"				<div rate='${rate}'>${rate}</div>" +
+"			{{/each}}" +
 "		</div>" +
 "	</div>" +
 "	</div>"
@@ -157,7 +150,7 @@ $.template(
 "	<div class='transMsgBg'>" +
 "	<div id='removeMessageForm'>" +
 "		<span>Вы действительно хотите удалить {{if type ==0}}сообщение{{/if}}{{if type ==1}}оценку{{/if}}{{if type ==2}}подарок{{/if}}?</span>" +
-"		<div class='message'>{{if type ==0}}«${content}»{{/if}}{{if type ==2}}<img src='Storage/gift/${content}.png' />{{/if}}</div>" +
+"		<div class='message'>{{if type ==0}}«${content}»{{/if}}{{if type ==2}}<div class='gift gift-${content}'></div>{{/if}}</div>" +
 "		<div class='closeWindow'></div>" +
 "	</div>" + 
 "	<div class='confirmControls'><button class='sendBtn'>Удалить</button><a href=''>Нет, не надо удалять</a></div>" +

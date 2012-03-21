@@ -12,6 +12,9 @@ TF.userList = {};
 // список сообщений
 TF.messages = {};
 
+// Кто последний отправил сообщение?
+TF.lastSender = "";
+
 TF.compliments = [
 	[
 		"Хороша! Даже пошлить не хочется)",
@@ -122,7 +125,7 @@ TF.drawDialog = function(data)
 
 	$('#notifSending').click(function(){
 		TF.notifSending = true;
-		$(this).parent().html("Здесь будет отображаться статус отправки...");
+		$(this).parent().find("span").html("Здесь будет отображаться статус отправки...");
 		return false;
 	});
 
@@ -186,7 +189,7 @@ TF.sendMessage = function(mType, mContent){
 			// после отправки очищаю текст сообщения
 			if (mType == 0) $('#messageContent').val('');
 			// Устанавливаем статус отправки
-			if (TF.notifSending) $("#sendingInfo").html('Сообщение успешно отправленно!');
+			if (TF.notifSending) $("#sendingInfo span").html('Сообщение успешно отправленно!');
 
 			eval(data.cmd);
 			var mc = $("#messageContainer");
@@ -194,7 +197,7 @@ TF.sendMessage = function(mType, mContent){
 			mc.animate({scrollLeft: mc.scrollTop() + 100}, 'slow');
 		},
 		error: function(){
-			if (TF.notifSending) $("#sendingInfo").html('Ваше сообщение не доставленно!');
+			if (TF.notifSending) $("#sendingInfo span").html('Ваше сообщение не доставленно!');
 		}
 	});
 	return false;
@@ -210,6 +213,8 @@ TF.drawMessageItem = function(data){
 	tmplData.sex = TF.actor.sex;
 	tmplData.isActor = data.from == TF.actor.id;
 	tmplData.isMutually = TF.isMutually(data);
+	tmplData.isPrevSender = TF.lastSender == data.from;
+
 	var messageItem = $.tmpl('messageItem', tmplData);
 	messageItem.find(".messageRemove").click( function(){
 		var modalWindow = $('.transDialogBg').append($.tmpl('removeMessage', data))
@@ -219,6 +224,7 @@ TF.drawMessageItem = function(data){
 		$(".transDialogBg").show();
 	});
 	$('#messageContainer ui').append(messageItem);
+	TF.lastSender = data.from;
 }
 
 TF.isMutually = function (data)

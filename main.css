@@ -177,7 +177,6 @@ border-radius: 5px;
 }
 
 #messageContainer { 
-	height: auto;
 	/*height: 510px;*/
 	height: 60%;
 	overflow-y: scroll; background: #ffffff;
@@ -186,12 +185,16 @@ border-radius: 5px;
 box-shadow: inset 30px 0 20px -20px #eaebef;
 }
 
-.messageItem {
-	min-height:22px; padding-left:60px; padding-right: 120px; position: relative;
-	background: #ffffff;
+#messageContainer ui {
 -webkit-box-shadow: inset 30px 0 20px -20px #eaebef;
 -moz-box-shadow: inset 30px 0 20px -20px#eaebef;
 box-shadow: inset 30px 0 20px -20px #eaebef;
+}
+
+.messageItem {
+	min-height:22px; margin-left:60px;
+	padding-right: 120px; position: relative;
+	background: #ffffff;
 }
 
 .messageItem:hover { background: #fafafa; }

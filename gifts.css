@@ -4,10 +4,12 @@
     Author     : Angelina
     Author     : Eugene Smith
 */
+
 .gift {
 	border: none;
 	height: 75px; width: 75px;
-	display: inline-block;
+	float:left;
+	margin-right:7px;
 	background-image: url(Storage/gift/gifts_sprite.jpg);
 -webkit-border-radius: 5px;
 -moz-border-radius: 5px;

@@ -22,8 +22,8 @@ $.template(
 "		<form action='server.php?cmd=sendMessage&amp;from=${from}&amp;to=${to}' method='POST' id='sendMessage'>" +
 "		<textarea name='messageContent' id='messageContent'></textarea>" +
 "		<button class='sendBtn'>Отправить</button>" +
-"		<div class='sendGift'><a href='#' id='sendGift'>Отправить подарок</a></div>" +
-"		<div class='sendRate'><div class='srats-small'></div><a href='#' id='sendRate'>Отправить оценку</a></div>" +
+"		<div class='sendGift'><a href='javascript:' id='sendGift'>Отправить подарок</a></div>" +
+"		<div class='sendRate'><div class='srats-small'></div><a href='javascript:' id='sendRate'>Отправить оценку</a></div>" +
 "		</form>" +
 "	</div>" +
 "	<div class='transDialogBg'></div>" +
@@ -40,31 +40,31 @@ $.template(
 "		<div class='userLocation'>${country}, ${city}</div>" +
 "	</div>"+
 "	<div class='userTools'>" +
-"	<a href=''>Добавить в закладки</a>" +
-"	<a href=''>Пожаловаться</a>" +
+"	<a href='javascript:'>Добавить в закладки</a>" +
+"	<a href='javascript:'>Пожаловаться</a>" +
 "	</div>" 
 )
 
 $.template(
   "messageItem",
-"<li class='messageItem {{if type == '1'}}rate{{/if}}' id='${id}'>" +
+"<li class='messageItem {{if (type == '1' || type == '2') }}rate{{/if}}' id='${id}'>" +
 "	<div class='senderName{{if isActor}} self{{/if}}'>{{if !isPrevSender}}${senderName}{{/if}}</div>" +
 "	<div class='messageContent'>" +
 "		{{if type == '2'}}<div class='gift gift-${content}'></div>" +
-"				{{if isActor}}Вы{{else}}Вам{{/if}} отправили подарок. <a href='' class='msgSendGift'>Отправить {{if isActor}}еще{{else}}в ответ{{/if}}</a>{{/if}}" +
+"				<span>{{if isActor}}Вы{{else}}Вам{{/if}} отправили подарок. <a href='javascript:' class='msgSendGift'>Отправить {{if isActor}}еще{{else}}в ответ{{/if}}</a>{{/if}}</span>" +
 "		{{if type == '1'}}" +
 "			{{if content > 8}}" +
-"				{{if isMutually}}<div class='mutally'></div><div>У вас взаимная симпатия!</br><a href='' class='msgSendGift'>Подарок</a> - лучший способ продолжить отношения.</div>" +
+"				{{if isMutually}}<div class='mutally'></div><div>У вас взаимная симпатия!</br><a href='javascript:' class='msgSendGift'>Подарок</a> - лучший способ продолжить отношения.</div>" +
 "				{{else}}" +
 "					<div class='sympathy'></div><div>" +
-"					{{if isActor}}Вы проявили симпатию!</br><a href='' class='msgSendGift'>Подарок</a> - лучший способ продолжить отношения." +
-"					{{else}}Ты понравил{{if sex == 1}}ся{{else}}ась{{/if}}. <a href='' class='msgSendMutally'>Отправить взаимную симпатию!</a>" +
+"					{{if isActor}}Вы проявили симпатию!</br><a href='javascript:' class='msgSendGift'>Подарок</a> - лучший способ продолжить отношения." +
+"					{{else}}Ты понравил{{if sex == 1}}ся{{else}}ась{{/if}}. <a href='javascript:' class='msgSendMutally'>Отправить взаимную симпатию!</a>" +
 "					{{/if}}</div>" +
 "				{{/if}}" +
 "			{{else}}<div class='rateMsg'>${content}</div>" +
-"					{{if isActor}}Вы{{else}}Ваc{{/if}} оценили. <a href='' class='msgSendRate'>Оценить {{if isActor}}еще{{else}}в ответ{{/if}}!</a>{{/if}}" +
+"				<span>{{if isActor}}Вы{{else}}Ваc{{/if}} оценили. <a href='javascript:' class='msgSendRate'>Оценить {{if isActor}}еще{{else}}в ответ{{/if}}!</a>{{/if}}</span>" +
 "			{{/if}}"+
-"		{{if type == '0'}}${content}{{/if}}"+
+"		{{if type == '0'}}<span>{{html content}}</span>{{/if}}"+
 "	</div>" +
 "	<div class='messageRemove'></div>" +
 "	<div class='messageTime'>${time}</div>" +
@@ -76,8 +76,10 @@ $.template(
 "<div class='firstMessageBox'>" +
 "	<h3>Начни с интересной фразы</h3>" +
 "		<span>Произведи хорошее впечатление</span>" +
-"		<a href='' id='compliment'>Чертовски привлекательный</a>" +
-"		<a href='' id='otherCompliment'>Другой комплимент</a>" +
+"		<a href='javascript:' id='compliment'>Чертовски привлекательный</a>" +
+"		<a href='javascript:' id='otherCompliment'><div></div>Другой комплимент</a>" +
+"		<div class='trCloud'></div>" +
+"		<span>Напиши первое сообщение</span>" +
 "</div>"
 );
 
@@ -103,12 +105,12 @@ $.template(
 "		<h2>Подарки</h2>" +
 "		<div class='closeWindow'></div>" +
 "		<div class='gifts'>"+
-"			<div class='giftsHead'>ПОДАРКИ ЗА 6</div>" +
+"			<div class='giftsHead'>ПОДАРКИ ЗА 2</div>" +
 "			<div class='giftsBox'><ui>{{each(i,giftId) [1,2,3,4,5,6,7,8,9,10,11,12,13]}} " +
-"					<li class='gift gift-${giftId}' giftId='${giftId}'></li>" +
+"				<li class='gift gift-${giftId}' giftId='${giftId}'></li>" +
 "			{{/each}}</ui></div>" +
-"			<div class='scrollBtn arrowLeft'> + </div>" +
-"			<div class='scrollBtn arrowRight'> + </div>" +
+"			<div class='scrollBtn arrowLeft'><div></div></div>" +
+"			<div class='scrollBtn arrowRight'><div></div></div>" +
 "		</div>"+
 "		<div class='gifts'>" +
 "			<div class='giftsHead'>ПОДАРКИ ЗА 6</div>" +
@@ -128,7 +130,7 @@ $.template(
 "		</div>" +
 "		<div class='gifts'>" +
 "			<div class='giftsHead'>ПОДАРКИ ЗА 18</div>" +
-"			<div class='giftsBox'><ui>{{each(i,giftId) [50,51,52,53,54,55,56,57,58,59]}} " +
+"			<div class='giftsBox'><ui>{{each(i,giftId) [60,51,72,53,84,55,96,57,58,59]}} " +
 "				<li class='gift gift-${giftId}' giftId='${giftId}'></li>" +
 "			{{/each}}</ui></div>" +
 "			<div class='scrollBtn arrowLeft'> + </div>" +
@@ -153,6 +155,6 @@ $.template(
 "		<div class='message'>{{if type ==0}}«${content}»{{/if}}{{if type ==2}}<div class='gift gift-${content}'></div>{{/if}}</div>" +
 "		<div class='closeWindow'></div>" +
 "	</div>" + 
-"	<div class='confirmControls'><button class='sendBtn'>Удалить</button><a href=''>Нет, не надо удалять</a></div>" +
+"	<div class='confirmControls'><button class='sendBtn'>Удалить</button><a href='javascript:'>Нет, не надо удалять</a></div>" +
 "	</div>"
 );

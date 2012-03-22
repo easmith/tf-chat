@@ -18,7 +18,7 @@ root {
 div { }
 a { color: #1270b8; display:inline; text-decoration:none; border-bottom: 1px dotted #1270b8; }
 ui { list-style: none; }
-.main { height: 100%; width: 100%; position: relative; overflow: hidden;}
+.main { height: 100%; width: 100%; min-width:820px;  position: relative; overflow: hidden;}
 .userList {
 	width:219px; height:100%; background: white; top:0; display: inline-block;
 	border-right:1px solid #eaebef;
@@ -71,13 +71,26 @@ box-shadow: inset 30px 0 20px -20px #eaebef;
 
 .userProfile .userName, .userProfile .userLocation {
 	margin:5px;
+text-shadow: 1px 1px 1px #ffffff;
+filter: dropshadow(color=#ffffff, offx=1, offy=1); 
+}
+.userProfile .userName a {
+	text-decoration: underline;
+	font-size:22px;
+	border: none;
+text-shadow: 1px 1px 1px #ffffff;
+filter: dropshadow(color=#ffffff, offx=1, offy=1); 
 }
 
 #userInfo .userTools {
-	width: 200px;
+	width: 150px;
 	position: absolute;
 	right: 0;
-	top: 0;
+	top: 22px;;
+}
+#userInfo .userTools a:last-child{
+	margin-top: 8px;
+	display: inline-block;
 }
 
 .userItem {
@@ -148,9 +161,10 @@ box-shadow: inset 0px 1px 3px 1px #4c73a0;
 
 .userItem .userAvatar {
 	overflow: hidden;
-	width:35px;
-	height:35px;
+	width:30px;
+	height:30px;
 	right:0;
+	margin-top:3px;
 	margin-right:11px;
 	margin-left:11px;
 -webkit-border-radius: 5px;
@@ -177,7 +191,8 @@ border-radius: 5px;
 }
 
 #messageContainer { 
-	/*height: 510px;*/
+	min-height: 300px;
+	max-height: 508px;
 	height: 60%;
 	overflow-y: scroll; background: #ffffff;
 -webkit-box-shadow: inset 30px 0 20px -20px #eaebef;
@@ -192,21 +207,28 @@ box-shadow: inset 30px 0 20px -20px #eaebef;
 }
 
 .messageItem {
-	min-height:22px; margin-left:60px;
+	min-height:27px;
+	margin-left:60px;
 	padding-right: 120px; position: relative;
 	background: #ffffff;
 }
 
 .messageItem:hover { background: #fafafa; }
 
-.messageItem div { display: inline-block; 	line-height:22px;}
-.messageItem .senderName { position: absolute; width: 54px; margin-left: -60px; padding-right: 6px; text-align:right; color: #a6a6a6; font-weight: bold; }
+.messageItem div { display: inline-block; line-height:20px;  }
+.messageItem .senderName { position: absolute;
+	width: 54px; margin-left: -60px; padding-right: 6px; text-align:right; color: #a6a6a6;
+}
 .messageItem .senderName.self { color: #1270b8; }
 
+.messageItem .messageContent { padding-left:5px; padding-top:3px; line-height: 20px;}
 .messageItem .messageContent * { vertical-align:middle; line-height:14px;}
-.messageItem .messageContent img { 	margin: 20px 10px 20px 0; }
+.messageItem .messageContent .gift {
+	display: inline-block;
+	float: none;
+}
 
-.messageItem.rate .messageContent div { color: #a6a6a6;}
+.messageItem.rate .messageContent *:not(a) { color: #a6a6a6;}
 .messageItem.rate .messageContent .sympathy {
 	margin: 6px 17px 10px 0;
 	background: url(img/herts.png) 0 0 no-repeat;
@@ -235,14 +257,14 @@ box-shadow: inset 30px 0 20px -20px #eaebef;
 .messageItem.removedMessage .messageTime { background: url(img/drop.png) right 7px no-repeat;}
 
 .messageItem.rate div.rateMsg {
-	margin: 20px 8px 20px 0;
+	margin: 15px 16px 20px 0;
 	width: 49px;
-	height:49px;
+	height: 49px;
 	background: url(img/stars.png) 0 -73px no-repeat;
 	text-align: center;
-	line-height: 49px;
+	line-height: 52px;
 	color: white;
-	font-size: 20px;
+	font-size: 19px;
 }
 
 .sendBtn {
@@ -264,6 +286,9 @@ box-shadow: inset 30px 0 20px -20px #eaebef;
 	background: -ms-linear-gradient(top,  #8996ab 0%,#5e6f8d 100%);
 	background: linear-gradient(top,  #8996ab 0%,#5e6f8d 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8996ab', endColorstr='#5e6f8d',GradientType=0 );
+
+text-shadow: 0px -1px 0px #5e687a;
+filter: dropshadow(color=#5e687a, offx=0, offy=-1);
 }
 
 .sendBtn:hover {
@@ -309,7 +334,7 @@ box-shadow: inset 30px 0 20px -20px #eaebef;
 #sendingInfo {
 	font-size:13px;
 	height: 19px;
-	padding: 10px 0 10px 0;
+	padding: 10px 0 6px 0;
 }
 
 #sendingInfo .msgStatus {
@@ -320,14 +345,17 @@ box-shadow: inset 30px 0 20px -20px #eaebef;
 	vertical-align: middle;
 	margin-right: 5px;
 }
+#sendingInfo .msgStatus.error {
+	background-position: 0 -12px;
+}
 
 #messageForm textarea {
 	padding:10px;
 	background: white;
 	border: none;
-	width: 550px; max-width: 550px; min-width: 550px;
-	height:95px; max-height:95px; min-height: 95px;
-		margin-bottom:10px;
+	width: 562px; max-width: 562px; min-width: 562px;
+	height:104px; max-height:104px; min-height: 104px;
+	margin-bottom:12px;
 
 -webkit-box-shadow: inset 0px 1px 3px -1px #000000;
 -moz-box-shadow: inset 0px 1px 3px -1px #000000;
@@ -378,14 +406,26 @@ box-shadow: inset 0px 1px 3px -1px #000000;
 }
 
 .transMsgBg {
-	position:absolute; top:50px; left: 50%;
-	margin-left:-300px;
+	position:absolute; top:1%; left: 50%;
+	margin-left:-328px;
 	padding:5px;
 	background: rgba(0, 0, 0, 0.6);
 -webkit-box-shadow: 0px 1px 24px -12px #000000;
 -moz-box-shadow: 0px 1px 24px -12px #000000;
 box-shadow: 0px 1px 24px -12px #000000;
 }
+
+.dialog .transMsgBg {
+	position:absolute; top:50%; left: 50%;
+	margin-left:-280px;
+	margin-top:-100px;
+	padding:5px;
+	background: rgba(0, 0, 0, 0.6);
+-webkit-box-shadow: 0px 1px 24px -12px #000000;
+-moz-box-shadow: 0px 1px 24px -12px #000000;
+box-shadow: 0px 1px 24px -12px #000000;
+}
+
 
 .transDialog .transMsgBg {
 	position:absolute; top:50%; left: 50%;
@@ -443,17 +483,18 @@ box-shadow: 0px 1px 24px -12px #000000;
 	color: #969696;
 	padding:5px 10px 25px 10px;
 }
-#removeMessageForm .message .gift{
+#removeMessageForm .message .gift {
+	float: none;
 	left: 110px;
 }
 
 .dialog .firstMessageBox {
-	margin: 285px auto 0 auto;
+	margin: 25% auto 0 auto;
 	display:none;
 	padding: 13px 15px 15px 18px;
-	width: 530px;
+	width: 508px;
 	height: 68px;
-	border-radius:6px;
+	border-radius: 6px;
 	background: white;
 -webkit-box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, .2);
 -moz-box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, .2);
@@ -475,11 +516,45 @@ box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, .2);
 	padding-bottom:10px;
 }
 
+.firstMessageBox .trCloud {
+	position: absolute;
+	bottom: -4;
+	left:276px;
+	background: white;
+	height: 12px;
+	width: 26px;
+-moz-transform: scale(1) rotate(45deg) translate(0px, 0px) skew(45deg, 0deg);
+-webkit-transform: scale(1) rotate(45deg) translate(0px, 0px) skew(45deg, 0deg);
+-o-transform: scale(1) rotate(45deg) translate(0px, 0px) skew(45deg, 0deg);
+-ms-transform: scale(1) rotate(45deg) translate(0px, 0px) skew(45deg, 0deg);
+transform: scale(1) rotate(45deg) translate(0px, 0px) skew(45deg, 0deg);
+
+-webkit-box-shadow: 2px 2px 3px -1px rgba(0, 0, 0, 0.2);
+-moz-box-shadow: 2px 2px 3px -1px rgba(0, 0, 0, 0.2);
+box-shadow: 2px 2px 3px -1px rgba(0, 0, 0, 0.2)
+}
+
+.firstMessageBox span:last-child {
+	position: absolute;
+	bottom: -41px;
+	left: 210px;
+	color: #bcbec3;
+}
+
 #otherCompliment {
 	font-size: 11px;
 	position: absolute;
 	bottom: 18px;
 	right: 20px;
+}
+
+#otherCompliment div {
+	position: absolute;
+	left: -15px;
+	top: 3px;
+	background: url(img/attention.png) 0 -22px no-repeat;
+	height: 12px;
+	width: 12px;
 }
 
 #sendGiftForm {
@@ -492,7 +567,7 @@ box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, .2);
 }
 
 #sendGiftForm h2 {
-	margin-bottom: 20px;
+	margin-bottom: 34px;
 	font-size: 20px;
 }
 
@@ -500,13 +575,15 @@ box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, .2);
 	border-top: 1px solid red;
 	height:75px;
 	margin-bottom: 20px;
-	padding: 13px 10px 12px 10px;
+	padding: 16px 0px 9px 15px;
+	width:590px;
 }
 #sendGiftForm .gifts .giftsBox {
+	margin-left:5px;
 	height:75px;
-	width:600px;
 	overflow: hidden;
 }
+
 #sendGiftForm .gifts ui {
 	left:0;
 	height: 75px;
@@ -514,7 +591,10 @@ box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, .2);
 	overflow: hidden;
 }
 
+#sendGiftForm .gifts ui li { cursor: pointer; }
 #sendGiftForm .giftsHead {
+	font-weight: bold;
+	padding: 0 10px 0 0;
 	text-transform:uppercase;
 	position: absolute;
 	top: -10px;
@@ -533,22 +613,36 @@ border-radius: 37px;
 	cursor: pointer;
 }
 
+#sendGiftForm .scrollBtn div {
+	background: url(img/arrows.png) 0 0 no-repeat;
+	height: 19px;
+	width: 14px;
+    left: 12px;
+    top: 9px;
+}
+
 #sendGiftForm .arrowLeft {
 	display: none;
 	position: absolute;
 	top: 30px;
 	left: 0;
 }
+#sendGiftForm .arrowLeft div { background-position: -15px 0; }
 
 #sendGiftForm .arrowRight {
 	position: absolute;
 	top: 30px;
 	right: 0;
 }
+#sendGiftForm .arrowRight div { background-position: 0 0 }
+
 #sendGiftForm a.howVIP {
-	color: red;
+	color: #da2d5e;
 	border: none;
 	text-decoration: underline;
+	right:21px;
+	bottom:11px;
+	position: absolute;
 }
 
 
@@ -557,8 +651,8 @@ border-radius: 37px;
 	width: 51px;
 	top:0;
 	right:0;
-	background-color: #cccccc;
-	background-position: 25px 25px;
+	background-color: #eaf3ff;
+	background-position: 23px 20px;
 -webkit-border-radius: 3px;
 -moz-border-radius: 3px;
 border-radius: 3px;

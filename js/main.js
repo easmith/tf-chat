@@ -54,10 +54,20 @@ TF.actor.set = function(){
 			cu = i;
 		}
 	}
+
+	console.log(Object.keys(TF.userList).length);
+	
 	// Если не указан пользователь выбираем последнего =)
 	if (cu == 0) cu = i;
 	TF.actor = TF.userList[cu];
 	window.location.hash = TF.actor.id;
+
+	for (i in TF.userList)
+	{
+		if (TF.userList[i].id == cu) continue;
+		TF.drawUserListItem(TF.userList[i]);
+	}
+
 //	delete TF.userList[cu];
 }
 
@@ -66,12 +76,6 @@ TF.getUserList = function()
 	$.getJSON('server.php?cmd=getUserList', function(data) {
 		TF.userList = data;
 		TF.actor.set();
-
-		for (i in data)
-		{
-			if (data[i].id == TF.actor.id) continue;
-			TF.drawUserListItem(data[i]);
-		}
 
 		$(".userItem").click(function(){
 			TF.getDialog($(this).attr('id'));
@@ -87,6 +91,7 @@ TF.drawUserListItem = function(data)
 
 TF.getDialog = function(senderId)
 {
+	TF.lastSender = "";
 	TF.currentUser = TF.userList[senderId];
 	$.getJSON('server.php?cmd=getMessage&senderId=' + senderId + '&ownerId=' + TF.actor.id, function(data) {
 		TF.messages = data;
@@ -125,22 +130,20 @@ TF.drawDialog = function(data)
 
 	$('#notifSending').click(function(){
 		TF.notifSending = true;
-		$(this).parent().find("span").html("Здесь будет отображаться статус отправки...");
+		$(this).parent().html("Здесь будет отображаться статус отправки...");
 		return false;
 	});
 
 	$('#sendRate').click(function(){
-		var user = TF.currentUser;
-		user.fName = rusNameDeclension.get(user.fName);
-		$('.transDialogBg').append($.tmpl('sendRate', user))
+		var fName = rusNameDeclension.get(TF.currentUser.fName);
+		$('.transDialogBg').append($.tmpl('sendRate', {fName: fName}))
 			.find(".stars div").click(function(){ TF.sendMessage(1, $(this).attr('rate')); $(".closeWindow").click(); });
 		$(".transDialogBg").show();
 	});
 
 	$('#sendGift').click(function(){
-		var user = TF.currentUser;
-		user.fName = rusNameDeclension.get(user.fName);
-		$('.main').append($.tmpl('sendGift', user))
+		var fName = rusNameDeclension.get(TF.currentUser.fName);
+		$('.main').append($.tmpl('sendGift', {fName: fName}))
 			.find(".scrollBtn").click(function(){ TF.scrollGift(this) });
 		$(".main").show();
 	})
@@ -173,7 +176,10 @@ TF.sendMessage = function(mType, mContent){
 	if (isNaN(parseInt(mContent))) mContent = mContent.trim();
 	if (mContent == '') return false;
 
-	if (TF.notifSending) $("#sendingInfo").html('Отправляем...');
+	if (TF.notifSending){
+		$("#sendingInfo span").html('Отправляем...');
+		$("#sendingInfo .msgStatus").removeClass("error");
+	}
 
 	$.ajax({
 		url: $('#sendMessage').attr('action'),
@@ -197,7 +203,10 @@ TF.sendMessage = function(mType, mContent){
 			mc.animate({scrollLeft: mc.scrollTop() + 100}, 'slow');
 		},
 		error: function(){
-			if (TF.notifSending) $("#sendingInfo span").html('Ваше сообщение не доставленно!');
+			if (TF.notifSending){
+				$("#sendingInfo span").html('Ваше сообщение не доставленно!');
+				$("#sendingInfo .msgStatus").addClass("error");
+			}
 		}
 	});
 	return false;
@@ -207,8 +216,8 @@ TF.drawMessageItem = function(data){
 	$("#dialog").removeClass('firstMessage');
 	var date = new Date(data.ts * 1000);
 	var tmplData = data;
-	tmplData.time = date.getHours() + ':' + date.getMinutes();
-	tmplData.content = data.content;
+	tmplData.time = date.toTimeString().substr(0, 5);
+	tmplData.content = data.content.replace(/</g, '&lt;').replace(/([^>])\n/g, '$1<br/>');
 	tmplData.senderName = TF.userList[data.from].fName;
 	tmplData.sex = TF.actor.sex;
 	tmplData.isActor = data.from == TF.actor.id;
@@ -217,6 +226,8 @@ TF.drawMessageItem = function(data){
 
 	var messageItem = $.tmpl('messageItem', tmplData);
 	messageItem.find(".messageRemove").click( function(){
+		var tmplData = data;
+		tmplData.content = data.content.replace(/</g, '&lt;').replace(/([^>])\n/g, '$1<br/>');
 		var modalWindow = $('.transDialogBg').append($.tmpl('removeMessage', data))
 		modalWindow.find("button").click(function(){ TF.removeMessage(data.id); $(".closeWindow").click(); })
 		modalWindow.find("a").click( function(){$(".closeWindow").click(); return false; })
@@ -244,10 +255,10 @@ TF.isMutually = function (data)
 TF.scrollGift = function(obj)
 {
 	var cont = $(obj).parent().find("ui");
-	var maxPos = ($(obj).parent().find("ui li").siblings().length - 7) * (-75);
+	var maxPos = ($(obj).parent().find("ui li").siblings().length - 7) * (-82);
 	var currentValue = parseInt(cont.css("left"));
-	var newPos = currentValue + ($(obj).hasClass("arrowLeft") ? 75 : -75);
-	newPos = newPos - (newPos % 75);
+	var newPos = currentValue + ($(obj).hasClass("arrowLeft") ? 82 : -82);
+	newPos = newPos - (newPos % 82);
 	console.log(newPos + " " + maxPos);
 	if (newPos < maxPos || newPos > 0)
 	{
@@ -256,6 +267,7 @@ TF.scrollGift = function(obj)
 	}
 	$(obj).parent().find("." + ($(obj).hasClass("arrowLeft") ? "arrowRight" : "arrowLeft")).show();
 	cont.animate({left : newPos}, "fast");
+	return false;
 }
 
 TF.removeMessage = function(mId)

@@ -4,7 +4,6 @@ include_once dirname(__FILE__) . DIRECTORY_SEPARATOR . '/BaseEntity.php';
 
 class User extends BaseEntity
 {
-	public $id;
 	public $fName = '';
 	public $lName = '';
 

@@ -13,7 +13,7 @@ TF.userList = {};
 TF.messages = {};
 
 // Кто последний отправил сообщение?
-TF.lastSender = "";
+TF.lastMsg = {};
 
 TF.compliments = [
 	[
@@ -49,22 +49,20 @@ TF.actor.set = function(){
 	var cu = 0;
 	for (var i in TF.userList)
 	{
-		if (TF.userList[i].id == uid)
+		if (TF.userList[i]._id == uid)
 		{
 			cu = i;
 		}
 	}
-
-	console.log(Object.keys(TF.userList).length);
 	
 	// Если не указан пользователь выбираем последнего =)
 	if (cu == 0) cu = i;
 	TF.actor = TF.userList[cu];
-	window.location.hash = TF.actor.id;
+	window.location.hash = TF.actor._id;
 
 	for (i in TF.userList)
 	{
-		if (TF.userList[i].id == cu) continue;
+		if (TF.userList[i]._id == cu) continue;
 		TF.drawUserListItem(TF.userList[i]);
 	}
 
@@ -76,9 +74,14 @@ TF.getUserList = function()
 	$.getJSON('server.php?cmd=getUserList', function(data) {
 		TF.userList = data;
 		TF.actor.set();
-
 		$(".userItem").click(function(){
 			TF.getDialog($(this).attr('id'));
+		});
+		$.getJSON('server.php?cmd=getCounters&uid=' + TF.actor._id, function(data) {
+			for(var i in data)
+			{
+				TF.setUserCounter(i, data[i]);
+			}
 		});
 	});
 }
@@ -86,14 +89,15 @@ TF.getUserList = function()
 TF.drawUserListItem = function(data)
 {
 	data.online = data.online ? "" : " offline";
-	$('#userList').append($.tmpl('userItem', data));
+	var item = $('#userList').append($.tmpl('userItem', data));
+	item.find('.closeWindow').click(function () { $(this).parent().parent().hide(); });
 }
 
 TF.getDialog = function(senderId)
 {
-	TF.lastSender = "";
+	TF.lastMsg = {};
 	TF.currentUser = TF.userList[senderId];
-	$.getJSON('server.php?cmd=getMessage&senderId=' + senderId + '&ownerId=' + TF.actor.id, function(data) {
+	$.getJSON('server.php?cmd=getMessage&senderId=' + senderId + '&ownerId=' + TF.actor._id, function(data) {
 		TF.messages = data;
 		TF.drawDialog(data);
 	});
@@ -102,12 +106,12 @@ TF.getDialog = function(senderId)
 TF.drawDialog = function(data)
 {
 	$(".userItem").removeClass('selected');
-	$('#' + TF.currentUser.id).addClass('selected');
+	$('#' + TF.currentUser._id).addClass('selected');
 
 	$("#dialog").empty();
-	$('#dialog').append($.tmpl('dialog', {from: TF.actor.id, to: TF.currentUser.id}));
+	$('#dialog').append($.tmpl('dialog', {from: TF.actor._id, to: TF.currentUser._id}));
 
-	$("#userInfo").append(TF.drawUserInfo(TF.userList[TF.currentUser.id]))
+	$("#userInfo").append(TF.drawUserInfo(TF.userList[TF.currentUser._id]));
 
 	// Отрисовываем сообщения, если есть они
 	if (Object.keys(data).length)
@@ -120,8 +124,8 @@ TF.drawDialog = function(data)
 		$("#dialog").addClass('firstMessage');
 		$('#messageContainer').append($.tmpl('firstMessage', {}));
 		TF.changeCompliment();
-		$("#otherCompliment").click(function(){ TF.changeCompliment(); return false; })
-		$("#compliment").click(function(){ TF.setCompliment($(this).attr('complimentId')); return false; })
+		$("#otherCompliment").click(function(){TF.changeCompliment();return false;})
+		$("#compliment").click(function(){TF.setCompliment($(this).attr('complimentId'));return false;})
 	}
 
 	$('#sendMessage').submit(function(){
@@ -137,14 +141,14 @@ TF.drawDialog = function(data)
 	$('#sendRate').click(function(){
 		var fName = rusNameDeclension.get(TF.currentUser.fName);
 		$('.transDialogBg').append($.tmpl('sendRate', {fName: fName}))
-			.find(".stars div").click(function(){ TF.sendMessage(1, $(this).attr('rate')); $(".closeWindow").click(); });
+			.find(".stars div").click(function(){TF.sendMessage(1, $(this).attr('rate'));$(".closeWindow").click();});
 		$(".transDialogBg").show();
 	});
 
 	$('#sendGift').click(function(){
 		var fName = rusNameDeclension.get(TF.currentUser.fName);
 		$('.main').append($.tmpl('sendGift', {fName: fName}))
-			.find(".scrollBtn").click(function(){ TF.scrollGift(this) });
+			.find(".scrollBtn").click(function(){TF.scrollGift(this)});
 		$(".main").show();
 	})
 
@@ -156,7 +160,7 @@ TF.drawDialog = function(data)
 	});
 
 
-	TF.setUserCounter(TF.currentUser.id, 0);
+//	TF.setUserCounter(TF.currentUser._id, 0);
 }
 
 TF.changeCompliment = function()
@@ -186,8 +190,8 @@ TF.sendMessage = function(mType, mContent){
 		type: "POST",
 		dataType: "JSON",
 		data: {
-			from: TF.actor.id,
-			to: TF.currentUser.id,
+			from: TF.actor._id,
+			to: TF.currentUser._id,
 			type: mType,
 			content: mContent
 		},
@@ -196,11 +200,6 @@ TF.sendMessage = function(mType, mContent){
 			if (mType == 0) $('#messageContent').val('');
 			// Устанавливаем статус отправки
 			if (TF.notifSending) $("#sendingInfo span").html('Сообщение успешно отправленно!');
-
-			eval(data.cmd);
-			var mc = $("#messageContainer");
-			// большое значение, для исключения необходимости вычислять точную позицию
-			mc.animate({scrollLeft: mc.scrollTop() + 100}, 'slow');
 		},
 		error: function(){
 			if (TF.notifSending){
@@ -220,22 +219,27 @@ TF.drawMessageItem = function(data){
 	tmplData.content = data.content.replace(/</g, '&lt;').replace(/([^>])\n/g, '$1<br/>');
 	tmplData.senderName = TF.userList[data.from].fName;
 	tmplData.sex = TF.actor.sex;
-	tmplData.isActor = data.from == TF.actor.id;
+	tmplData.isActor = data.from == TF.actor._id;
 	tmplData.isMutually = TF.isMutually(data);
-	tmplData.isPrevSender = TF.lastSender == data.from;
+	tmplData.isPrevSender = TF.lastMsg.from == data.from ? 1 : 0;
 
 	var messageItem = $.tmpl('messageItem', tmplData);
 	messageItem.find(".messageRemove").click( function(){
 		var tmplData = data;
 		tmplData.content = data.content.replace(/</g, '&lt;').replace(/([^>])\n/g, '$1<br/>');
 		var modalWindow = $('.transDialogBg').append($.tmpl('removeMessage', data))
-		modalWindow.find("button").click(function(){ TF.removeMessage(data.id); $(".closeWindow").click(); })
-		modalWindow.find("a").click( function(){$(".closeWindow").click(); return false; })
+		modalWindow.find("button").click(function(){TF.removeMessage(data._id); $(".closeWindow").click();})
+		modalWindow.find("a").click( function(){$(".closeWindow").click();return false;})
 
 		$(".transDialogBg").show();
 	});
 	$('#messageContainer ui').append(messageItem);
-	TF.lastSender = data.from;
+
+	var mc = $("#messageContainer");
+	// большое значение, для исключения необходимости вычислять точную позицию
+	mc.scrollTop(4000);
+			
+	TF.lastMsg = data;
 }
 
 TF.isMutually = function (data)
@@ -243,7 +247,7 @@ TF.isMutually = function (data)
 	if (parseInt(data.type) != 1 || parseInt(data.content) < 8) return 0;
 	for (var i in TF.messages)
 	{
-		if (TF.messages[i].id == data.id) return 0;
+		if (TF.messages[i]._id == data._id) return 0;
 		if (TF.messages[i].from == data.to && TF.messages[i].type == 1 && parseInt(TF.messages[i].content) > 7)
 		{
 			return 1;
@@ -259,7 +263,7 @@ TF.scrollGift = function(obj)
 	var currentValue = parseInt(cont.css("left"));
 	var newPos = currentValue + ($(obj).hasClass("arrowLeft") ? 82 : -82);
 	newPos = newPos - (newPos % 82);
-	console.log(newPos + " " + maxPos);
+
 	if (newPos < maxPos || newPos > 0)
 	{
 		$(obj).hide();
@@ -278,25 +282,21 @@ TF.removeMessage = function(mId)
 	});
 }
 
-TF.setCounter = function(uId, counter)
-{
-	alert(uId.toString() + counter);
-}
-
 TF.drawUserInfo = function(data){
 	return $.tmpl('userInfo', data)
 }
 
 TF.getEvents = function()
 {
-	$.getJSON('server.php?cmd=getEvents&cu=' + TF.actor.id + '&mu=' + TF.currentUser.id, function(data) {
+	$.getJSON('server.php?cmd=getEvents&cu=' + TF.actor._id + '&mu=' + TF.currentUser._id + '&ts=' + TF.lastMsg.lastModifed, function(data) {
+		$(".userCounter").hide();
 		for (var c in data.counters)
 		{
 			TF.setUserCounter(c, data.counters[c]);
 		}
 		for (var m in data.messages)
 		{
-			//TF.drawMessageItem(data.messages[i]);
+			TF.drawMessageItem(data.messages[m]);
 		}
 	});
 }
@@ -305,17 +305,11 @@ TF.setUserCounter = function(uId, counter)
 {
 	var userItem = $("#" + uId + " .userCounter");
 	userItem.html(counter);
-	if (counter == 0)
+	if (counter > 0)
 	{
-		userItem.hide();
-	}
-	else
-	{
-		userItem.show();
+		userItem.css({display: 'inline-block'});
 	}
 }
-
-
 
 
 
@@ -336,19 +330,14 @@ $().ready(function(){
 			$(".closeWindow").click();
 		});
 
-		$(window).delegate('.msgSendGift', 'click', function () { $("#sendGift").click(); return false;});
-		$(window).delegate('.msgSendRate', 'click', function () { $("#sendRate").click(); return false;});
-		$(window).delegate('.msgSendMutally', 'click', function () { TF.sendMessage(1, "10"); return false;});
-
-		$("#messageContainer").scroll(function(){
-               alert('asdasd');
-       });
-
+		$(window).delegate('.msgSendGift', 'click', function () {$("#sendGift").click();return false;});
+		$(window).delegate('.msgSendRate', 'click', function () {$("#sendRate").click();return false;});
+		$(window).delegate('.msgSendMutally', 'click', function () {TF.sendMessage(1, "10");return false;});
 
 		TF.getUserList();
 
-//		setInterval(function(){
-//			TF.getEvents();
-//		}, 2000);
+		setInterval(function(){
+			TF.getEvents();
+		}, 1000);
 
 });

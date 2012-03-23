@@ -4,7 +4,6 @@ include_once dirname(__FILE__) . DIRECTORY_SEPARATOR . '/BaseEntity.php';
 
 class Message extends BaseEntity
 {
-	public $id;
 
 	/**
 	 * TimeStamp - Время создания сообщения
@@ -50,6 +49,7 @@ class Message extends BaseEntity
 	{
 		parent::__construct();
 		$this->ts = time();
+//		$this->ts = new MongoDate();
 		$this->lastModifed = $this->ts;
 	}
 }

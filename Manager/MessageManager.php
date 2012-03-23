@@ -5,40 +5,6 @@ include_once dirname(__FILE__) . DIRECTORY_SEPARATOR . '../Entity/Message.php';
 
 class MessageManager extends BaseManager
 {
-	/**
-	 * Возвращает пользователя по id
-	 *
-	 * @param string $id имя пользователя
-	 *
-	 * @return User
-	 */
-	public function get($userId)
-	{
-		return parent::get($id, 'Message');
-	}
-
-	public function getMessages($ownerId, $senderId)
-	{
-		$messages = parent::getAll('Message');
-		$haystack = array($ownerId.$senderId, $senderId.$ownerId);
-
-		$result = array();
-		foreach ($messages as $h => &$m)
-		{
-			if (in_array($m->from.$m->to, $haystack))
-			{
-				$result[$h] = $m;
-				if ($m->to == $ownerId && $m->status == 0)
-				{
-					$m->status = 1;
-					$m->lastModifed = time();
-				}
-			}
-		}
-		$this->saveAll($messages, 'Message');
-		return $result;
-	}
-
 	public function getEvents($ownerId, $senderId)
 	{
 		$messages = parent::getAll('Message');
@@ -63,11 +29,6 @@ class MessageManager extends BaseManager
 		return $result;
 	}
 
-	public function getAll()
-	{
-		return parent::getAll('Message');
-	}
-
 	public function sendMessage($from, $to, $type, $content)
 	{
 		$m = new Message();
@@ -79,8 +40,25 @@ class MessageManager extends BaseManager
 		return $this->save($m);
 	}
 	
-	public function remove($mId)
+	public function getCounters($uid)
 	{
-		return parent::remove($mId, 'Message');
+
+		$keys = array("from" => 1);
+
+		$initial = array("items" => 0);
+
+		$reduce = "function (obj, prev) { prev.items++; }";
+		
+		$condition = array("to" => $uid);
+
+		$gr = $this->db->{$this->entity}->group($keys, $initial, $reduce, $condition);
+		
+		$result = array();
+		foreach(is_array($gr['retval']) ? $gr['retval'] : array() as $g)
+		{
+			$result[$g['from']] = $g['items'];
+		}
+		
+		return $result;
 	}
 }

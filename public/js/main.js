@@ -1,50 +1,52 @@
-if (typeof(TF) == 'undefined') TF = {};
+TF = {
 
-// текущий "залогиненныйй пользователь"
-TF.actor = {};
+	// текущий "залогиненныйй пользователь"
+	actor : {},
 
-// пользователь с кем ведется диалог
-TF.currentUser = {};
+	// пользователь с кем ведется диалог
+	currentUser : {},
 
-// список всех польователей
-TF.userList = {};
+	// список всех польователей
+	userList : {},
 
-// список сообщений
-TF.messages = {};
+	// список сообщений
+	messages : {},
 
-// Кто последний отправил сообщение?
-TF.lastMsg = {};
+	// Кто последний отправил сообщение?
+	lastMsg : {},
 
-TF.compliments = [
-	[
-		"Хороша! Даже пошлить не хочется)",
-		"Никогда не видел таких длинных ног",
-		"Ты выпала мне не случайно",
-		"Какая у тебя гладкая кожа",
-		"Если бы можно было убивать взглядом, тебя бы уже посадили за убийство",
-		"Тебя надо клонировать, чтобы осчастливить побольше мужчин!",
-		"Ты – лучшее, что создал бог!",
-		"Сразила наповал!",
-		"Секси-шмекси ",
-		"Я в восхищении",
+	compliments : [
+		[
+			"Хороша! Даже пошлить не хочется)",
+			"Никогда не видел таких длинных ног",
+			"Ты выпала мне не случайно",
+			"Какая у тебя гладкая кожа",
+			"Если бы можно было убивать взглядом, тебя бы уже посадили за убийство",
+			"Тебя надо клонировать, чтобы осчастливить побольше мужчин!",
+			"Ты – лучшее, что создал бог!",
+			"Сразила наповал!",
+			"Секси-шмекси ",
+			"Я в восхищении",
+		],
+		[
+			"Отдаюсь в хорошие руки. По-моему, у тебя именно такие",
+			"Бунтарь",
+			"Сводишь с ума!",
+			"Вот тебя-то мне для полного счастья и не хватало!",
+			"Импозантный мужчина",
+			"Мистер Позитив",
+			"Ты бы меня спас, если бы я тонула?",
+			"Вау, какой пресс!",
+			"А я думала, настоящие мужчины вымерли…",
+			"Ты такой сладкий, а я сладкоежка",
+		]
 	],
-	[
-		"Отдаюсь в хорошие руки. По-моему, у тебя именно такие",
-		"Бунтарь",
-		"Сводишь с ума!",
-		"Вот тебя-то мне для полного счастья и не хватало!",
-		"Импозантный мужчина",
-		"Мистер Позитив",
-		"Ты бы меня спас, если бы я тонула?",
-		"Вау, какой пресс!",
-		"А я думала, настоящие мужчины вымерли…",
-		"Ты такой сладкий, а я сладкоежка",
-	]
-];
 
-TF.notifSending = false;
+	notifSending : false
 
-TF.actor.set = function(){
+}
+
+TF.setActor = function(){
 	var uid = window.location.hash.substr(1, 32);
 	var cu = 0;
 	for (var i in TF.userList)
@@ -66,14 +68,13 @@ TF.actor.set = function(){
 		TF.drawUserListItem(TF.userList[i]);
 	}
 
-//	delete TF.userList[cu];
 }
 
 TF.getUserList = function()
 {
 	$.getJSON('server.php?cmd=getUserList', function(data) {
 		TF.userList = data;
-		TF.actor.set();
+		TF.setActor();
 		$(".userItem").click(function(){
 			TF.getDialog($(this).attr('id'));
 		});
@@ -318,8 +319,23 @@ TF.setUserCounter = function(uId, counter)
 
 
 
-
 $().ready(function(){
+        var socket = io.connect();
+
+		
+        socket.emit('getUserList', {giveMe:'users'}, function(data){
+            for(i in data)
+			{
+				TF.userList[data[i]._id] = data[i];
+				TF.drawUserListItem(data[i]);
+			}
+//			console.log(TF.userList);
+//			TF.drawUserList();
+        });
+
+        
+        
+        
 		$(window).delegate('.closeWindow', 'click', function(){
 			$(".transMsgBg").remove();
 			$(".transDialogBg").hide();
@@ -334,10 +350,10 @@ $().ready(function(){
 		$(window).delegate('.msgSendRate', 'click', function () {$("#sendRate").click();return false;});
 		$(window).delegate('.msgSendMutally', 'click', function () {TF.sendMessage(1, "10");return false;});
 
-		TF.getUserList();
+//		TF.getUserList();
 
-		setInterval(function(){
-			TF.getEvents();
-		}, 1000);
+//		setInterval(function(){
+//			TF.getEvents();
+//		}, 1000);
 
 });

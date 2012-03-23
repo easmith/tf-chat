@@ -2,12 +2,17 @@
 
 class BaseManager
 {
+	protected $db;
+
 	public function  __construct()
 	{
+		$m = new Mongo();
+		$this->db = $m->tf;
 	}
 
 	public static function getEntityPath($entityName)
 	{
+		return "lol";
 		$filename = dirname(__FILE__) . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "Storage" . DIRECTORY_SEPARATOR . $entityName . ".txt";
 		if (!file_exists($filename))
 			touch($filename);
@@ -32,20 +37,12 @@ class BaseManager
 
 	public function get($id, $entityName)
 	{
-		$fName = self::getEntityPath($entityName);
-
-		$storage = unserialize(file_get_contents($fName));
-
-		return isset($storage[$id]) ? $storage[$id] : null;
+		return $this->db->$entityName->find(array("id" => $id));
 	}
 
 	public function getAll($entityName)
 	{
-		$fName = self::getEntityPath($entityName);
-
-		$storage = unserialize(file_get_contents($fName));
-
-		return $storage;
+		return $this->db->$entityName->find();
 	}
 
 	public function saveAll($data, $entityName)

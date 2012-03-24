@@ -53,7 +53,6 @@ TF.setActor = function(){
 	var cu = this.userList.length - 1;
 	for (var i in this.userList)
 	{
-		console.log(this.userList[i]._id + ' ' + uid);
 		if (this.userList[i]._id == uid)
 		{
 			cu = i;
@@ -98,7 +97,7 @@ TF.getDialog = function(senderId)
 	
 	this.socket.emit('getDialog', {pair :[TF.actor._id, TF.currentUser._id]}, function(data){
 		TF.messages = data;
-		console.log(TF.messages);
+//		console.log(TF.messages);
 		TF.drawDialog();
 	});
 }
@@ -158,8 +157,6 @@ TF.drawDialog = function()
 			return TF.sendMessage(0, $('#messageContent').val());
 		}
 	});
-
-
 //	TF.setUserCounter(TF.currentUser._id, 0);
 }
 
@@ -193,7 +190,6 @@ TF.sendMessage = function(mType, mContent){
 	}
 	
 	this.socket.emit('sendMessage', message, function(data){
-		console.log(data);
 		if (TF.notifSending) $("#sendingInfo span").html('Сообщение успешно отправленно!');
 	});
 	
@@ -264,29 +260,13 @@ TF.scrollGift = function(obj)
 
 TF.removeMessage = function(mId)
 {
-	$.getJSON('server.php?cmd=removeMessage&mId=' + mId, function(data) {
-		$('#'+mId).addClass('removedMessage');
-		$('#'+mId+' .messageContent').html('Сообщение было удалено.');
-	});
+	this.socket.emit("removeMsg", {actor: this.actor._id, mId: mId});
+	$('#'+mId).addClass('removedMessage');
+	$('#'+mId+' .messageContent').html('Сообщение было удалено.');
 }
 
 TF.drawUserInfo = function(data){
 	return $.tmpl('userInfo', data)
-}
-
-TF.getEvents = function()
-{
-	$.getJSON('server.php?cmd=getEvents&cu=' + TF.actor._id + '&mu=' + TF.currentUser._id + '&ts=' + TF.lastMsg.lastModifed, function(data) {
-		$(".userCounter").hide();
-		for (var c in data.counters)
-		{
-			TF.setUserCounter(c, data.counters[c]);
-		}
-		for (var m in data.messages)
-		{
-			TF.drawMessageItem(data.messages[m]);
-		}
-	});
 }
 
 TF.setUserCounter = function(uId, counter)
@@ -317,10 +297,18 @@ $().ready(function(){
 			});
 		})
 		
-		
 		TF.socket.on('newMsg', function(data){
+			console.log(data);
 			TF.drawMessageItem(data);
 		})
+		
+		TF.socket.on('counters', function(data){
+			console.log(data);
+			for (var i in data)
+			{
+				TF.setUserCounter(data[i].from, data[i].items)
+			}
+		});
         
         
 		$(window).delegate('.closeWindow', 'click', function(){

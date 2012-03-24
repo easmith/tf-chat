@@ -45,6 +45,38 @@ var message = {
 				cursor.toArray(callback);
 			});
 		});
+	},
+	
+	getCounters : function(id, callback) {
+		db.collection('message', function(err, collection){
+			var keys = {from: 1};
+			var initial = {items : 0};
+			var reduce = "function (obj, prev) { prev.items++; }";
+			var condition = {to : id};
+			
+			collection.group(keys, condition, initial, reduce, function(err, result){
+				console.log("Group Error: " + err);
+				callback(result);
+			})
+		});
+	},
+	
+	save : function (msg){
+		db.collection('message', function(err, collection){
+			collection.insert(msg, function(err, result){
+				console.log(err);
+				console.log(result);
+			})
+		});
+	},
+	
+	remove : function (mId){
+		db.collection('message', function(err, collection){
+			collection.remove({ _id : new mongo.BSONPure.ObjectID(mId)}, function(err, result){
+				console.log(err);
+				console.log(result);
+			})
+		});
 	}
 }
 
@@ -63,17 +95,16 @@ io.sockets.on('connection', function (socket) {
 	user.get({}, function(err, data){
 		console.log("Sending userList");
 		socket.emit("userList", data)
-		
-		// counters ???????
 	});
 	
 	socket.on('setActor', function (id) {
 		console.log("Set actor:" + id);
 		activeUsers[id] = socket.id;
+		emitCounters(id);
     });
 	
 	socket.on('getDialog', function (tha, fn){
-		console.log("Getting dialog: [" + tha.actor + ", " + tha.curUser + "]");
+		console.log("Getting dialog: " + tha.pair);
 		
 		var condition = {
 			from : {$in: tha.pair},
@@ -86,16 +117,36 @@ io.sockets.on('connection', function (socket) {
 		});
 	});
 	
+	function emitCounters(id){
+		if (io.sockets.sockets[activeUsers[id]])
+		{
+			message.getCounters(id,function(data){
+				io.sockets.sockets[activeUsers[id]].emit('counters', data);
+			})
+		}
+	}
+	
 	
 	socket.on('sendMessage', function (msg, fn){
 		console.log("Send Message: [" + msg.from + "=>" + msg.to + ": " + msg.type + " " + msg.content + "]");
 		
 		var m = message.create(msg);
 		
+		message.save(m);
+		
 		socket.emit('newMsg', m);
+		emitCounters(msg.from)
+		
 		if (io.sockets.sockets[activeUsers[msg.to]])
 		{
 			io.sockets.sockets[activeUsers[msg.to]].emit('newMsg', m);
+			emitCounters(msg.to);
 		}
+	});
+	
+	socket.on('removeMsg', function(cmd){
+		console.log('delete: ' + cmd.mId);
+		message.remove(cmd.mId);
+		emitCounters(cmd.actor);
 	});
 });

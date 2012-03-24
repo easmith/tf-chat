@@ -13,7 +13,7 @@ class BaseManager
 	
 	public function get($query = array(), $filds = array())
 	{
-		$cursor = $this->db->{$this->entity}->find($query, $filds);
+		$cursor = $this->db->{$this->entity}->find($query, $filds)->sort(array('ts' => 1));
 		return $this->likeId($cursor);
 	}
 	

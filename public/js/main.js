@@ -1,4 +1,6 @@
 TF = {
+	// Сокет
+	socket : {},
 
 	// текущий "залогиненныйй пользователь"
 	actor : {},
@@ -47,64 +49,61 @@ TF = {
 }
 
 TF.setActor = function(){
-	var uid = window.location.hash.substr(1, 32);
-	var cu = 0;
-	for (var i in TF.userList)
+	var uid = window.location.hash.substr(1);
+	var cu = this.userList.length - 1;
+	for (var i in this.userList)
 	{
-		if (TF.userList[i]._id == uid)
+		console.log(this.userList[i]._id + ' ' + uid);
+		if (this.userList[i]._id == uid)
 		{
 			cu = i;
+			break;
 		}
 	}
 	
-	// Если не указан пользователь выбираем последнего =)
-	if (cu == 0) cu = i;
-	TF.actor = TF.userList[cu];
-	window.location.hash = TF.actor._id;
-
-	for (i in TF.userList)
+	this.actor = this.userList[cu];
+	window.location.hash = this.actor._id;
+	
+	this.socket.emit("setActor", this.actor._id);
+	var users = this.userList;
+	delete users[cu]
+	for (i in users)
 	{
-		if (TF.userList[i]._id == cu) continue;
-		TF.drawUserListItem(TF.userList[i]);
+		this.drawUserListItem(this.userList[i]);
 	}
 
-}
-
-TF.getUserList = function()
-{
-	$.getJSON('server.php?cmd=getUserList', function(data) {
-		TF.userList = data;
-		TF.setActor();
-		$(".userItem").click(function(){
-			TF.getDialog($(this).attr('id'));
-		});
-		$.getJSON('server.php?cmd=getCounters&uid=' + TF.actor._id, function(data) {
-			for(var i in data)
-			{
-				TF.setUserCounter(i, data[i]);
-			}
-		});
-	});
 }
 
 TF.drawUserListItem = function(data)
 {
 	data.online = data.online ? "" : " offline";
 	var item = $('#userList').append($.tmpl('userItem', data));
-	item.find('.closeWindow').click(function () { $(this).parent().parent().hide(); });
+	item.find('.closeWindow').click(function () {$(this).parent().parent().hide();});
+}
+
+TF.getUserById = function(id)
+{
+	for (var i in this.userList)
+	{
+		if (this.userList[i]._id == id)
+			return this.userList[i];
+	}
+	return null;
 }
 
 TF.getDialog = function(senderId)
 {
-	TF.lastMsg = {};
-	TF.currentUser = TF.userList[senderId];
-	$.getJSON('server.php?cmd=getMessage&senderId=' + senderId + '&ownerId=' + TF.actor._id, function(data) {
+	this.lastMsg = {};
+	this.currentUser = this.getUserById(senderId);
+	
+	this.socket.emit('getDialog', {pair :[TF.actor._id, TF.currentUser._id]}, function(data){
 		TF.messages = data;
-		TF.drawDialog(data);
+		console.log(TF.messages);
+		TF.drawDialog();
 	});
 }
 
-TF.drawDialog = function(data)
+TF.drawDialog = function()
 {
 	$(".userItem").removeClass('selected');
 	$('#' + TF.currentUser._id).addClass('selected');
@@ -112,13 +111,13 @@ TF.drawDialog = function(data)
 	$("#dialog").empty();
 	$('#dialog').append($.tmpl('dialog', {from: TF.actor._id, to: TF.currentUser._id}));
 
-	$("#userInfo").append(TF.drawUserInfo(TF.userList[TF.currentUser._id]));
+	$("#userInfo").append(TF.drawUserInfo(TF.currentUser));
 
 	// Отрисовываем сообщения, если есть они
-	if (Object.keys(data).length)
+	if (TF.messages.length)
 	{
 		$("#dialog").removeClass('firstMessage');
-		for (var i in data) TF.drawMessageItem(data[i]);
+		for (var i in TF.messages) TF.drawMessageItem(TF.messages[i]);
 	}
 	else
 	{
@@ -166,7 +165,7 @@ TF.drawDialog = function(data)
 
 TF.changeCompliment = function()
 {
-	var compliments = TF.compliments[TF.currentUser.sex];
+	var compliments = this.compliments[this.currentUser.sex];
 	var complimentId = Math.floor(Math.random() * compliments.length);
 	$("#compliment").attr('complimentId', complimentId);
 	$("#compliment").html("«" + compliments[complimentId] + "»");
@@ -174,7 +173,7 @@ TF.changeCompliment = function()
 }
 
 TF.setCompliment = function(complimentId){
-	$("#messageContent").val(TF.compliments[TF.currentUser.sex][complimentId]);
+	$("#messageContent").val(this.compliments[this.currentUser.sex][complimentId]);
 }
 
 TF.sendMessage = function(mType, mContent){
@@ -185,40 +184,28 @@ TF.sendMessage = function(mType, mContent){
 		$("#sendingInfo span").html('Отправляем...');
 		$("#sendingInfo .msgStatus").removeClass("error");
 	}
-
-	$.ajax({
-		url: $('#sendMessage').attr('action'),
-		type: "POST",
-		dataType: "JSON",
-		data: {
-			from: TF.actor._id,
-			to: TF.currentUser._id,
-			type: mType,
-			content: mContent
-		},
-		success: function(data) {
-			// после отправки очищаю текст сообщения
-			if (mType == 0) $('#messageContent').val('');
-			// Устанавливаем статус отправки
-			if (TF.notifSending) $("#sendingInfo span").html('Сообщение успешно отправленно!');
-		},
-		error: function(){
-			if (TF.notifSending){
-				$("#sendingInfo span").html('Ваше сообщение не доставленно!');
-				$("#sendingInfo .msgStatus").addClass("error");
-			}
-		}
+	
+	var message = {
+		from: TF.actor._id,
+		to: TF.currentUser._id,
+		type: mType,
+		content: mContent
+	}
+	
+	this.socket.emit('sendMessage', message, function(data){
+		console.log(data);
+		if (TF.notifSending) $("#sendingInfo span").html('Сообщение успешно отправленно!');
 	});
+	
 	return false;
 }
 
 TF.drawMessageItem = function(data){
 	$("#dialog").removeClass('firstMessage');
-	var date = new Date(data.ts * 1000);
 	var tmplData = data;
-	tmplData.time = date.toTimeString().substr(0, 5);
+	tmplData.time = new Date(data.ts * 1000).toTimeString().substr(0, 5);
 	tmplData.content = data.content.replace(/</g, '&lt;').replace(/([^>])\n/g, '$1<br/>');
-	tmplData.senderName = TF.userList[data.from].fName;
+	tmplData.senderName = data.from == this.actor._id ? this.actor.fName : this.getUserById(data.from).fName;
 	tmplData.sex = TF.actor.sex;
 	tmplData.isActor = data.from == TF.actor._id;
 	tmplData.isMutually = TF.isMutually(data);
@@ -229,7 +216,7 @@ TF.drawMessageItem = function(data){
 		var tmplData = data;
 		tmplData.content = data.content.replace(/</g, '&lt;').replace(/([^>])\n/g, '$1<br/>');
 		var modalWindow = $('.transDialogBg').append($.tmpl('removeMessage', data))
-		modalWindow.find("button").click(function(){TF.removeMessage(data._id); $(".closeWindow").click();})
+		modalWindow.find("button").click(function(){TF.removeMessage(data._id);$(".closeWindow").click();})
 		modalWindow.find("a").click( function(){$(".closeWindow").click();return false;})
 
 		$(".transDialogBg").show();
@@ -320,20 +307,20 @@ TF.setUserCounter = function(uId, counter)
 
 
 $().ready(function(){
-        var socket = io.connect();
-
+		TF.socket = io.connect();
 		
-        socket.emit('getUserList', {giveMe:'users'}, function(data){
-            for(i in data)
-			{
-				TF.userList[data[i]._id] = data[i];
-				TF.drawUserListItem(data[i]);
-			}
-//			console.log(TF.userList);
-//			TF.drawUserList();
-        });
-
-        
+		TF.socket.on('userList', function(data){
+			TF.userList = data;
+			TF.setActor();
+			$(".userItem").click(function(){
+				TF.getDialog($(this).attr('id'));
+			});
+		})
+		
+		
+		TF.socket.on('newMsg', function(data){
+			TF.drawMessageItem(data);
+		})
         
         
 		$(window).delegate('.closeWindow', 'click', function(){

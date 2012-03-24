@@ -1,2 +1,4 @@
 Storage/User.txt
 Storage/Message.txt
+/node_modules/.bin/
+/node_modules/socket.io/node_modules/socket.io-client/node_modules/.bin/

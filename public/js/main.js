@@ -174,7 +174,7 @@ TF.setCompliment = function(complimentId){
 }
 
 TF.sendMessage = function(mType, mContent){
-	$("#messageContent").empty();
+	$("#messageContent").val('');
 	
 	if (isNaN(parseInt(mContent))) mContent = mContent.trim();
 	if (mContent == '') return false;

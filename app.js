@@ -142,6 +142,7 @@ io.sockets.on('connection', function (socket) {
 			io.sockets.sockets[activeUsers[msg.to]].emit('newMsg', m);
 			emitCounters(msg.to);
 		}
+		fn();
 	});
 	
 	socket.on('removeMsg', function(cmd){

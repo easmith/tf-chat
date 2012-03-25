@@ -19,7 +19,8 @@ root {
 div { }
 a { color: #1270b8; display:inline; text-decoration:none; border-bottom: 1px dotted #1270b8; }
 ui { list-style: none; }
-.main { height: 100%; width: 100%; min-width:820px;  position: relative; overflow: hidden;}
+h1 { font-weight: bold; font-size: 26px;  margin:0 auto; padding-top:100px; height: 50px; width: 400px;}
+.main { height: 100%; width: 100%; min-width:820px; min-height: 710px;  position: relative; overflow: hidden;}
 .userList {
 	width:219px; height:100%; background: white; top:0; display: inline-block;
 	border-right:1px solid #eaebef;
@@ -170,7 +171,8 @@ box-shadow: inset 0px 1px 3px 1px #4c73a0;
 	width:30px;
 	height:30px;
 	right:0;
-	margin-top:0;
+	margin-top:9;
+	margin-bottom: 10px;
 	margin-right:11px;
 	margin-left:11px;
 -webkit-border-radius: 5px;
@@ -180,6 +182,7 @@ border-radius: 5px;
     cursor: pointer;
 	box-shadow: 0 0 3px 0 black inset;
 }
+
 
 .userItem .hideUser {
 	cursor:pointer;
@@ -397,18 +400,19 @@ box-shadow: inset 0px 1px 3px -1px #000000;
 }
 
 #messageForm .sendRate, #messageForm .sendGift {
-	margin-left:25px;
-	display: inline-block;
-	height:23px;
-	padding: 2px 2px 2px 6px;
-	vertical-align:middle;
+    display: inline-block;
+    height: 23px;
+    margin-left: 25px;
+    padding: 4px 12px 0 6px;
+    vertical-align: middle;
 }
 
 #messageForm .sendGift {
-	padding-left:27px;
-	background: url(img/gift.png) 0 2px no-repeat;
+	padding-left:30px;
+	background: url(img/gift.png) 4px 4px no-repeat;
 }
-.sendGift:hover .sendRate:hover { background: #e7eff9; }
+
+#messageForm .sendGift:hover, .sendRate:hover { background-color: #e7eff9; }
 
 #messageForm .sendRate * {
 	display: inline-block;

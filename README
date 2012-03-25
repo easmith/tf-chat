@@ -1,3 +1,35 @@
-Work for the TopFace contest
+Конкурсная работа TopFace
 
-Теперь серверная часть тоже на Javascript - Node.js
+Клиентская часть выполнена на Ajax
+Серверная - на Node.js с базой данных Mongodb
+
+Считаем, что git уже установлен.
+git clone https://github.com/joyent/node.git
+cd node
+git checkout v0.6.7
+
+Собираем
+./configure
+make
+sudo make install
+
+Установим node packet manager
+curl http://npmjs.org/install.sh | sh
+
+Теперь перейдем в каталог приложения и установим для него необходимые пакеты
+cd /var/www/njstest
+git clone git@github.com:easmith/TF-contest.git .
+git checkout nodejs
+npm install express
+npm install socket.io
+
+Установка mongodb
+apt-get install mongodb
+Запускаем демон mongod
+mongod --fork --logpath log.txt
+Проверяем работоспособность
+mongo
+
+Собираем базу (делаем дамп mongodump --db tf)
+cd Storage/
+mongorestore dump/

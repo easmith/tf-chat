@@ -1,1 +1,20 @@
-Work for the TopFace contest
+Конкурсная работа TopFace
+
+Клиентская часть выполнена на Ajax
+Серверная на php с базой данных Mongodb
+
+Установка mongodb
+apt-get install mongodb
+Запускаем демон mongod
+mongod --fork --logpath log.txt
+Проверяем работоспособность
+mongo
+
+Установка драйвера mongobd для php
+apt-get install php-pear, php5-dev
+pecl install mongo
+
+Собираем базу, делаем дамп
+cd Storage/
+mongodump --db tf
+mongorestore dump/

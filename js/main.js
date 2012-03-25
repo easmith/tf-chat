@@ -58,7 +58,6 @@ TF.actor.set = function(){
 	// Если не указан пользователь выбираем последнего =)
 	if (cu == 0) cu = i;
 	TF.actor = TF.userList[cu];
-	console.log(cu);
 	window.location.hash = TF.actor._id;
 
 	for (i in TF.userList)
@@ -337,8 +336,8 @@ $().ready(function(){
 
 		TF.getUserList();
 
-//		setInterval(function(){
-//			TF.getEvents();
-//		}, 1000);
+		setInterval(function(){
+			TF.getEvents();
+		}, 1000);
 
 });

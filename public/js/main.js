@@ -200,6 +200,7 @@ TF.sendMessage = function(mType, mContent){
 
 TF.drawMessageItem = function(data){
 	$("#dialog").removeClass('firstMessage');
+	if (!data.content) return;
 	var tmplData = data;
 	tmplData.time = new Date(data.ts * 1000).toTimeString().substr(0, 5);
 	tmplData.content = data.content.replace(/</g, '&lt;').replace(/([^>])\n/g, '$1<br/>');
@@ -264,7 +265,8 @@ TF.removeMessage = function(mId)
 {
 	this.socket.emit("removeMsg", {actor: this.actor._id, mId: mId});
 	$('#'+mId).addClass('removedMessage');
-	$('#'+mId+' .messageContent').html('Сообщение было удалено.');
+	$('#'+mId+' .messageContent').empty();
+	$('#'+mId+' .messageContent').html('<span>Сообщение было удалено.</span>');
 }
 
 TF.drawUserInfo = function(data){
@@ -326,11 +328,5 @@ $().ready(function(){
 		$(window).delegate('.msgSendGift', 'click', function () {$("#sendGift").click();return false;});
 		$(window).delegate('.msgSendRate', 'click', function () {$("#sendRate").click();return false;});
 		$(window).delegate('.msgSendMutally', 'click', function () {TF.sendMessage(1, "10");return false;});
-
-//		TF.getUserList();
-
-//		setInterval(function(){
-//			TF.getEvents();
-//		}, 1000);
 
 });

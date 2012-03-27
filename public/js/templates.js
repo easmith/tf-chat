@@ -153,7 +153,7 @@ $.template(
 "	<div class='transMsgBg'>" +
 "	<div id='removeMessageForm'>" +
 "		<span>Вы действительно хотите удалить {{if type ==0}}сообщение{{/if}}{{if type ==1}}оценку{{/if}}{{if type ==2}}подарок{{/if}}?</span>" +
-"		<div class='message'>{{if type ==0}}«${content}»{{/if}}{{if type ==2}}<div class='gift gift-${content}'></div>{{/if}}</div>" +
+"		<div class='message'>{{if type ==0}}«{{html content}}»{{/if}}{{if type ==2}}<div class='gift gift-${content}'></div>{{/if}}</div>" +
 "		<div class='closeWindow'></div>" +
 "	</div>" + 
 "	<div class='confirmControls'><button class='sendBtn'>Удалить</button><a href='javascript:'>Нет, не надо удалять</a></div>" +
